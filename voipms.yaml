@@ -10,8 +10,10 @@ info:
     can expand with real schemas.
   version: 1.0.0
 servers:
+  - url: https://voip.ms
+    description: Production host — the specification exposes each VoIP.ms function as its own path under /api/v1/rest.php/{method} so tooling (Budibase) can import them as separate actions.
   - url: https://voip.ms/api/v1/rest.php
-    description: Production server (single endpoint; methods are passed via query)
+    description: Legacy single-endpoint form (rest.php?method=...) retained for completeness
 components:
   securitySchemes:
     basicAuth:
@@ -35,10 +37,15 @@ components:
     MethodParam:
       name: method
       in: query
-      required: true
+      required: false
       schema:
         type: string
-      description: API method name
+      description: |
+        API method name. When using the legacy single-endpoint form (rest.php?method=...),
+        provide this query parameter. When using the per-path form (e.g. server
+        URL includes /api/v1/rest.php and the path is /getBalance) this parameter
+        is optional and may be omitted. Marked optional to allow tooling imports
+        that expose each function as its own path.
     DIDNumber:
       name: did
       in: query
