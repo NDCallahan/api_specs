@@ -172,5 +172,318 @@ paths:
                           type: object
         '400':
           description: Invalid request
+  # --- General ---
+  /getBalance:
+    get:
+      summary: Get Balance
+      description: Retrieves account balance or advanced stats.
+      operationId: getBalance
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getBalance]
+          description: API method to call
+        - name: advanced
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Return advanced stats if true
+      responses:
+        '200':
+          description: Balance info
+        '400':
+          description: Invalid request
+  /getConference:
+    get:
+      summary: Get Conference(s)
+      description: Retrieves a list or specific conference.
+      operationId: getConference
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getConference]
+          description: API method to call
+        - name: conference
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Conference code
+      responses:
+        '200':
+          description: Conference info
+        '400':
+          description: Invalid request
+  /getConferenceMembers:
+    get:
+      summary: Get Conference Members
+      description: Retrieves a list or specific conference member.
+      operationId: getConferenceMembers
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getConferenceMembers]
+          description: API method to call
+        - name: member
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Member code
+      responses:
+        '200':
+          description: Conference member info
+        '400':
+          description: Invalid request
+  /getConferenceRecordings:
+    get:
+      summary: Get Conference Recordings
+      description: Retrieves recordings for a conference.
+      operationId: getConferenceRecordings
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getConferenceRecordings]
+          description: API method to call
+        - name: conference
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Conference code
+      responses:
+        '200':
+          description: Conference recordings
+        '400':
+          description: Invalid request
+  /getConferenceRecordingFile:
+    get:
+      summary: Get Conference Recording File
+      description: Retrieves a specific conference recording file (Base64).
+      operationId: getConferenceRecordingFile
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getConferenceRecordingFile]
+          description: API method to call
+        - name: recording
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Recording file code
+      responses:
+        '200':
+          description: Conference recording file
+        '400':
+          description: Invalid request
+  /getSequences:
+    get:
+      summary: Get Sequences
+      description: Retrieves a list or specific sequence.
+      operationId: getSequences
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getSequences]
+          description: API method to call
+        - name: sequence
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Sequence ID
+      responses:
+        '200':
+          description: Sequence info
+        '400':
+          description: Invalid request
+  /getCountries:
+    get:
+      summary: Get Countries
+      description: Retrieves a list or specific country.
+      operationId: getCountries
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getCountries]
+          description: API method to call
+        - name: country
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Country code
+      responses:
+        '200':
+          description: Country info
+        '400':
+          description: Invalid request
+  /getIP:
+    get:
+      summary: Get Client IP
+      description: Shows the IP used by the client application requesting information from the API.
+      operationId: getIP
+      parameters:
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getIP]
+          description: API method to call
+      responses:
+        '200':
+          description: Client IP
+        '400':
+          description: Invalid request
+  /getLanguages:
+    get:
+      summary: Get Languages
+      description: Retrieves a list or specific language.
+      operationId: getLanguages
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getLanguages]
+          description: API method to call
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Language code
+      responses:
+        '200':
+          description: Language info
+        '400':
+          description: Invalid request
+  /getLocales:
+    get:
+      summary: Get Locales
+      description: Retrieves a list or specific locale code.
+      operationId: getLocales
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getLocales]
+          description: API method to call
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Language code
+      responses:
+        '200':
+          description: Locale info
+        '400':
+          description: Invalid request
+  /getServersInfo:
+    get:
+      summary: Get Servers Info
+      description: Retrieves a list or specific server info.
+      operationId: getServersInfo
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getServersInfo]
+          description: API method to call
+        - name: pop
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Server POP
+      responses:
+        '200':
+          description: Server info
+        '400':
+          description: Invalid request
+  /getTransactionHistory:
+    get:
+      summary: Get Transaction History
+      description: Retrieves transaction history between two dates.
+      operationId: getTransactionHistory
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getTransactionHistory]
+          description: API method to call
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Start date (yyyy-mm-dd)
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+          description: End date (yyyy-mm-dd)
+      responses:
+        '200':
+          description: Transaction history
+        '400':
+          description: Invalid request
+  # --- Accounts, DIDs, CDR, and more ---
+  # (Add similar stubs for all other endpoints as needed)
 security:
   - basicAuth: []
