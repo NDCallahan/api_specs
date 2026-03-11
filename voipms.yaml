@@ -1,12 +1,17 @@
 openapi: 3.0.3
 info:
   title: VoIP.ms API
-  description: |-
-    OpenAPI specification for the VoIP.ms API. This spec includes authentication and several DID-related endpoints as examples. Extend as needed for other endpoints.
+  description: |
+    Complete OpenAPI (YAML) specification stub for the VoIP.ms REST/JSON API.
+    Each API function is exposed as a GET endpoint path that accepts the
+    standard `api_username` and `api_password` query parameters plus a
+    `method` parameter that matches the function name. Parameters specific to
+    each function are listed where obvious; responses are concise stubs you
+    can expand with real schemas.
   version: 1.0.0
 servers:
   - url: https://voip.ms/api/v1/rest.php
-    description: Production server
+    description: Production server (single endpoint; methods are passed via query)
 components:
   securitySchemes:
     basicAuth:
@@ -27,6 +32,13 @@ components:
       schema:
         type: string
       description: Password created for the API
+    MethodParam:
+      name: method
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API method name
     DIDNumber:
       name: did
       in: query
@@ -35,455 +47,2994 @@ components:
         type: string
       description: Specific DID number
 paths:
-  /:
-    get:
-      summary: Get Canadian DIDs
-      description: Retrieves a list of Canadian DIDs by Province and Ratecenter.
-      operationId: getDIDsCAN
-      parameters:
-        - $ref: '#/components/parameters/ApiUsername'
-        - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getDIDsCAN]
-          description: API method to call
-        - name: province
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Canadian province abbreviation (e.g., ON, QC)
-        - name: ratecenter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Ratecenter name
-      responses:
-        '200':
-          description: List of Canadian DIDs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  dids:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        did:
-                          type: string
-                        province:
-                          type: string
-                        ratecenter:
-                          type: string
-        '400':
-          description: Invalid request
-  /getDIDsUSA:
-    get:
-      summary: Get USA DIDs
-      description: Retrieves a list of USA DIDs by State and Ratecenter.
-      operationId: getDIDsUSA
-      parameters:
-        - $ref: '#/components/parameters/ApiUsername'
-        - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getDIDsUSA]
-          description: API method to call
-        - name: state
-          in: query
-          required: false
-          schema:
-            type: string
-          description: US state abbreviation (e.g., NY, CA)
-        - name: ratecenter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Ratecenter name
-      responses:
-        '200':
-          description: List of USA DIDs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  dids:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        did:
-                          type: string
-                        state:
-                          type: string
-                        ratecenter:
-                          type: string
-        '400':
-          description: Invalid request
-  /getDIDsInfo:
-    get:
-      summary: Get DIDs Info
-      description: Retrieves information from all your DIDs or a specific DID if provided.
-      operationId: getDIDsInfo
-      parameters:
-        - $ref: '#/components/parameters/ApiUsername'
-        - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getDIDsInfo]
-          description: API method to call
-        - $ref: '#/components/parameters/DIDNumber'
-      responses:
-        '200':
-          description: DID information
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  dids:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        did:
-                          type: string
-                        info:
-                          type: object
-        '400':
-          description: Invalid request
-  # --- General ---
   /getBalance:
     get:
-      summary: Get Balance
-      description: Retrieves account balance or advanced stats.
+      summary: getBalance
+      description: Retrieves Balance for your Account or advanced stats if `advanced=true`.
       operationId: getBalance
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getBalance]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: advanced
           in: query
           required: false
           schema:
             type: boolean
-          description: Return advanced stats if true
       responses:
         '200':
-          description: Balance info
+          description: Balance returned
         '400':
           description: Invalid request
   /getConference:
     get:
-      summary: Get Conference(s)
-      description: Retrieves a list or specific conference.
+      summary: getConference
+      description: Retrieve list of conferences or specific conference by code.
       operationId: getConference
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getConference]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: conference
           in: query
           required: false
           schema:
             type: string
-          description: Conference code
       responses:
         '200':
-          description: Conference info
+          description: Conference(s) info
         '400':
           description: Invalid request
   /getConferenceMembers:
     get:
-      summary: Get Conference Members
-      description: Retrieves a list or specific conference member.
+      summary: getConferenceMembers
       operationId: getConferenceMembers
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getConferenceMembers]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: member
           in: query
           required: false
           schema:
             type: string
-          description: Member code
       responses:
         '200':
-          description: Conference member info
+          description: Members list or member
         '400':
           description: Invalid request
   /getConferenceRecordings:
     get:
-      summary: Get Conference Recordings
-      description: Retrieves recordings for a conference.
+      summary: getConferenceRecordings
       operationId: getConferenceRecordings
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getConferenceRecordings]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: conference
           in: query
           required: true
           schema:
             type: string
-          description: Conference code
       responses:
         '200':
-          description: Conference recordings
+          description: Recordings list
         '400':
           description: Invalid request
   /getConferenceRecordingFile:
     get:
-      summary: Get Conference Recording File
-      description: Retrieves a specific conference recording file (Base64).
+      summary: getConferenceRecordingFile
       operationId: getConferenceRecordingFile
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getConferenceRecordingFile]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: recording
           in: query
           required: true
           schema:
             type: string
-          description: Recording file code
+          description: Recording code
       responses:
         '200':
-          description: Conference recording file
+          description: Base64 recording file
         '400':
           description: Invalid request
   /getSequences:
     get:
-      summary: Get Sequences
-      description: Retrieves a list or specific sequence.
+      summary: getSequences
       operationId: getSequences
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getSequences]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: sequence
           in: query
           required: false
           schema:
             type: string
-          description: Sequence ID
       responses:
         '200':
-          description: Sequence info
+          description: Sequences
         '400':
           description: Invalid request
   /getCountries:
     get:
-      summary: Get Countries
-      description: Retrieves a list or specific country.
+      summary: getCountries
       operationId: getCountries
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getCountries]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: country
           in: query
           required: false
           schema:
             type: string
-          description: Country code
       responses:
         '200':
-          description: Country info
+          description: Country list/info
         '400':
           description: Invalid request
   /getIP:
     get:
-      summary: Get Client IP
-      description: Shows the IP used by the client application requesting information from the API.
+      summary: getIP
+      description: Shows the IP used by the client application requesting information from the API (no auth required).
       operationId: getIP
       parameters:
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getIP]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
       responses:
         '200':
-          description: Client IP
+          description: IP info
         '400':
           description: Invalid request
   /getLanguages:
     get:
-      summary: Get Languages
-      description: Retrieves a list or specific language.
+      summary: getLanguages
       operationId: getLanguages
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getLanguages]
-          description: API method to call
-        - name: language
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Language code
+        - $ref: '#/components/parameters/MethodParam'
       responses:
         '200':
-          description: Language info
+          description: Languages
         '400':
           description: Invalid request
   /getLocales:
     get:
-      summary: Get Locales
-      description: Retrieves a list or specific locale code.
+      summary: getLocales
       operationId: getLocales
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getLocales]
-          description: API method to call
-        - name: language
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Language code
+        - $ref: '#/components/parameters/MethodParam'
       responses:
         '200':
-          description: Locale info
+          description: Locales
         '400':
           description: Invalid request
   /getServersInfo:
     get:
-      summary: Get Servers Info
-      description: Retrieves a list or specific server info.
+      summary: getServersInfo
       operationId: getServersInfo
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getServersInfo]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: pop
           in: query
           required: false
           schema:
             type: string
-          description: Server POP
       responses:
         '200':
-          description: Server info
+          description: Servers info
         '400':
           description: Invalid request
   /getTransactionHistory:
     get:
-      summary: Get Transaction History
-      description: Retrieves transaction history between two dates.
+      summary: getTransactionHistory
       operationId: getTransactionHistory
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getTransactionHistory]
-          description: API method to call
+        - $ref: '#/components/parameters/MethodParam'
         - name: from
           in: query
           required: true
           schema:
             type: string
-          description: Start date (yyyy-mm-dd)
+          description: yyyy-mm-dd
         - name: to
           in: query
           required: true
           schema:
             type: string
-          description: End date (yyyy-mm-dd)
+          description: yyyy-mm-dd
       responses:
         '200':
-          description: Transaction history
+          description: Transactions
         '400':
           description: Invalid request
-  # --- Accounts, DIDs, CDR, and more ---
-  # (Add similar stubs for all other endpoints as needed)
+  /createSubAccount:
+    get:
+      summary: createSubAccount
+      operationId: createSubAccount
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Subaccount created
+        '400':
+          description: Invalid request
+  /delSubAccount:
+    get:
+      summary: delSubAccount
+      operationId: delSubAccount
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Subaccount deleted
+        '400':
+          description: Invalid request
+  /getAllowedCodecs:
+    get:
+      summary: getAllowedCodecs
+      operationId: getAllowedCodecs
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Allowed codecs
+        '400':
+          description: Invalid request
+  /getAuthTypes:
+    get:
+      summary: getAuthTypes
+      operationId: getAuthTypes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Auth types
+        '400':
+          description: Invalid request
+  /getDeviceTypes:
+    get:
+      summary: getDeviceTypes
+      operationId: getDeviceTypes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Device types
+        '400':
+          description: Invalid request
+  /getDTMFModes:
+    get:
+      summary: getDTMFModes
+      operationId: getDTMFModes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DTMF modes
+        '400':
+          description: Invalid request
+  /getInvoice:
+    get:
+      summary: getInvoice
+      operationId: getInvoice
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: invoice_id
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoice URL (PDF)
+        '400':
+          description: Invalid request
+  /getLockInternational:
+    get:
+      summary: getLockInternational
+      operationId: getLockInternational
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Lock international options
+        '400':
+          description: Invalid request
+  /getMusicOnHold:
+    get:
+      summary: getMusicOnHold
+      operationId: getMusicOnHold
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Music on hold options
+        '400':
+          description: Invalid request
+  /delMusicOnHold:
+    get:
+      summary: delMusicOnHold
+      operationId: delMusicOnHold
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: moh_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deleted MOH
+        '400':
+          description: Invalid request
+  /getNAT:
+    get:
+      summary: getNAT
+      operationId: getNAT
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: NAT options
+        '400':
+          description: Invalid request
+  /getProtocols:
+    get:
+      summary: getProtocols
+      operationId: getProtocols
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Protocols list
+        '400':
+          description: Invalid request
+  /getRegistrationStatus:
+    get:
+      summary: getRegistrationStatus
+      operationId: getRegistrationStatus
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Registration status
+        '400':
+          description: Invalid request
+  /getReportEstimatedHoldTime:
+    get:
+      summary: getReportEstimatedHoldTime
+      operationId: getReportEstimatedHoldTime
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Report estimated hold time types
+        '400':
+          description: Invalid request
+  /getRoutes:
+    get:
+      summary: getRoutes
+      operationId: getRoutes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Routes
+        '400':
+          description: Invalid request
+  /getSubAccounts:
+    get:
+      summary: getSubAccounts
+      operationId: getSubAccounts
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Sub accounts list
+        '400':
+          description: Invalid request
+  /getCallTranscriptions:
+    get:
+      summary: getCallTranscriptions
+      operationId: getCallTranscriptions
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call transcriptions
+        '400':
+          description: Invalid request
+  /getVoicemailTranscriptions:
+    get:
+      summary: getVoicemailTranscriptions
+      operationId: getVoicemailTranscriptions
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail transcriptions
+        '400':
+          description: Invalid request
+  /addMemberToConference:
+    get:
+      summary: addMemberToConference
+      operationId: addMemberToConference
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Member added
+        '400':
+          description: Invalid request
+  /setSubAccount:
+    get:
+      summary: setSubAccount
+      operationId: setSubAccount
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Subaccount updated
+        '400':
+          description: Invalid request
+  /getCallAccounts:
+    get:
+      summary: getCallAccounts
+      operationId: getCallAccounts
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call accounts
+        '400':
+          description: Invalid request
+  /getCallBilling:
+    get:
+      summary: getCallBilling
+      operationId: getCallBilling
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call billing options
+        '400':
+          description: Invalid request
+  /getCallTypes:
+    get:
+      summary: getCallTypes
+      operationId: getCallTypes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call types
+        '400':
+          description: Invalid request
+  /getCDR:
+    get:
+      summary: getCDR
+      operationId: getCDR
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call detail records
+        '400':
+          description: Invalid request
+  /getRates:
+    get:
+      summary: getRates
+      operationId: getRates
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: package
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Rates
+        '400':
+          description: Invalid request
+  /getTerminationRates:
+    get:
+      summary: getTerminationRates
+      operationId: getTerminationRates
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Termination rates
+        '400':
+          description: Invalid request
+  /getResellerCDR:
+    get:
+      summary: getResellerCDR
+      operationId: getResellerCDR
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Reseller CDR
+        '400':
+          description: Invalid request
+  /getResellerSMS:
+    get:
+      summary: getResellerSMS
+      operationId: getResellerSMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Reseller SMS
+        '400':
+          description: Invalid request
+  /getResellerMMS:
+    get:
+      summary: getResellerMMS
+      operationId: getResellerMMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Reseller MMS
+        '400':
+          description: Invalid request
+  /getCallParking:
+    get:
+      summary: getCallParking
+      operationId: getCallParking
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call parking entries
+        '400':
+          description: Invalid request
+  /setCallParking:
+    get:
+      summary: setCallParking
+      operationId: setCallParking
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call parking updated/added
+        '400':
+          description: Invalid request
+  /delCallParking:
+    get:
+      summary: delCallParking
+      operationId: delCallParking
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call parking deleted
+        '400':
+          description: Invalid request
+  /getCallRecordings:
+    get:
+      summary: getCallRecordings
+      operationId: getCallRecordings
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call recordings
+        '400':
+          description: Invalid request
+  /getCallRecording:
+    get:
+      summary: getCallRecording
+      operationId: getCallRecording
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: recording_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Call recording info (mp3)
+        '400':
+          description: Invalid request
+  /sendCallRecordingEmail:
+    get:
+      summary: sendCallRecordingEmail
+      operationId: sendCallRecordingEmail
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: recording_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email sent with recording
+        '400':
+          description: Invalid request
+  /delCallRecording:
+    get:
+      summary: delCallRecording
+      operationId: delCallRecording
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: recording_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Call recording deleted
+        '400':
+          description: Invalid request
+  /addCharge:
+    get:
+      summary: addCharge
+      operationId: addCharge
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Charge added
+        '400':
+          description: Invalid request
+  /addPayment:
+    get:
+      summary: addPayment
+      operationId: addPayment
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Payment added
+        '400':
+          description: Invalid request
+  /assignDIDvPRI:
+    get:
+      summary: assignDIDvPRI
+      operationId: assignDIDvPRI
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID assigned to VPRI
+        '400':
+          description: Invalid request
+  /getBalanceManagement:
+    get:
+      summary: getBalanceManagement
+      operationId: getBalanceManagement
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Balance management options
+        '400':
+          description: Invalid request
+  /getCharges:
+    get:
+      summary: getCharges
+      operationId: getCharges
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Charges list
+        '400':
+          description: Invalid request
+  /getClientPackages:
+    get:
+      summary: getClientPackages
+      operationId: getClientPackages
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Client packages
+        '400':
+          description: Invalid request
+  /getClients:
+    get:
+      summary: getClients
+      operationId: getClients
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: reseller_client_id
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Clients list or client info
+        '400':
+          description: Invalid request
+  /getClientThreshold:
+    get:
+      summary: getClientThreshold
+      operationId: getClientThreshold
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Client threshold
+        '400':
+          description: Invalid request
+  /getDeposits:
+    get:
+      summary: getDeposits
+      operationId: getDeposits
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Deposits
+        '400':
+          description: Invalid request
+  /getPackages:
+    get:
+      summary: getPackages
+      operationId: getPackages
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Packages list
+        '400':
+          description: Invalid request
+  /getResellerBalance:
+    get:
+      summary: getResellerBalance
+      operationId: getResellerBalance
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: reseller_client_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reseller balance and stats
+        '400':
+          description: Invalid request
+  /setClient:
+    get:
+      summary: setClient
+      operationId: setClient
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Client updated
+        '400':
+          description: Invalid request
+  /setClientThreshold:
+    get:
+      summary: setClientThreshold
+      operationId: setClientThreshold
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Threshold updated
+        '400':
+          description: Invalid request
+  /setConference:
+    get:
+      summary: setConference
+      operationId: setConference
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Conference updated/added
+        '400':
+          description: Invalid request
+  /setConferenceMember:
+    get:
+      summary: setConferenceMember
+      operationId: setConferenceMember
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Conference member updated/added
+        '400':
+          description: Invalid request
+  /setSequences:
+    get:
+      summary: setSequences
+      operationId: setSequences
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Sequence updated/added
+        '400':
+          description: Invalid request
+  /signupClient:
+    get:
+      summary: signupClient
+      operationId: signupClient
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Client signed up
+        '400':
+          description: Invalid request
+  /backOrderDIDUSA:
+    get:
+      summary: backOrderDIDUSA
+      operationId: backOrderDIDUSA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Backorder placed
+        '400':
+          description: Invalid request
+  /backOrderDIDCAN:
+    get:
+      summary: backOrderDIDCAN
+      operationId: backOrderDIDCAN
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Backorder placed
+        '400':
+          description: Invalid request
+  /cancelDID:
+    get:
+      summary: cancelDID
+      operationId: cancelDID
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - $ref: '#/components/parameters/DIDNumber'
+      responses:
+        '200':
+          description: DID cancelled
+        '400':
+          description: Invalid request
+  /connectDID:
+    get:
+      summary: connectDID
+      operationId: connectDID
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - $ref: '#/components/parameters/DIDNumber'
+      responses:
+        '200':
+          description: DID connected
+        '400':
+          description: Invalid request
+  /delCallback:
+    get:
+      summary: delCallback
+      operationId: delCallback
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: callback_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Callback deleted
+        '400':
+          description: Invalid request
+  /delCallerIDFiltering:
+    get:
+      summary: delCallerIDFiltering
+      operationId: delCallerIDFiltering
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: filtering_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: CallerID filtering deleted
+        '400':
+          description: Invalid request
+  /delCallHunting:
+    get:
+      summary: delCallHunting
+      operationId: delCallHunting
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: callhunting_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Call hunting deleted
+        '400':
+          description: Invalid request
+  /delConference:
+    get:
+      summary: delConference
+      operationId: delConference
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: conference
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Conference deleted
+        '400':
+          description: Invalid request
+  /delConferenceMember:
+    get:
+      summary: delConferenceMember
+      operationId: delConferenceMember
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: member
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Conference member deleted
+        '400':
+          description: Invalid request
+  /delSequences:
+    get:
+      summary: delSequences
+      operationId: delSequences
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: sequence
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sequence deleted
+        '400':
+          description: Invalid request
+  /delClient:
+    get:
+      summary: delClient
+      operationId: delClient
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Client deleted
+        '400':
+          description: Invalid request
+  /delDISA:
+    get:
+      summary: delDISA
+      operationId: delDISA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DISA deleted
+        '400':
+          description: Invalid request
+  /deleteSMS:
+    get:
+      summary: deleteSMS
+      operationId: deleteSMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: SMS deleted
+        '400':
+          description: Invalid request
+  /deleteMMS:
+    get:
+      summary: deleteMMS
+      operationId: deleteMMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: MMS deleted
+        '400':
+          description: Invalid request
+  /delForwarding:
+    get:
+      summary: delForwarding
+      operationId: delForwarding
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Forwarding deleted
+        '400':
+          description: Invalid request
+  /delIVR:
+    get:
+      summary: delIVR
+      operationId: delIVR
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: IVR deleted
+        '400':
+          description: Invalid request
+  /delPhonebook:
+    get:
+      summary: delPhonebook
+      operationId: delPhonebook
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Phonebook entry deleted
+        '400':
+          description: Invalid request
+  /delPhonebookGroup:
+    get:
+      summary: delPhonebookGroup
+      operationId: delPhonebookGroup
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Phonebook group deleted
+        '400':
+          description: Invalid request
+  /delQueue:
+    get:
+      summary: delQueue
+      operationId: delQueue
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Queue deleted
+        '400':
+          description: Invalid request
+  /delRecording:
+    get:
+      summary: delRecording
+      operationId: delRecording
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Recording deleted
+        '400':
+          description: Invalid request
+  /delRingGroup:
+    get:
+      summary: delRingGroup
+      operationId: delRingGroup
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Ring group deleted
+        '400':
+          description: Invalid request
+  /delSIPURI:
+    get:
+      summary: delSIPURI
+      operationId: delSIPURI
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: SIP URI deleted
+        '400':
+          description: Invalid request
+  /delStaticMember:
+    get:
+      summary: delStaticMember
+      operationId: delStaticMember
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Static member deleted
+        '400':
+          description: Invalid request
+  /delTimeCondition:
+    get:
+      summary: delTimeCondition
+      operationId: delTimeCondition
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Time condition deleted
+        '400':
+          description: Invalid request
+  /getCallbacks:
+    get:
+      summary: getCallbacks
+      operationId: getCallbacks
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Callbacks list
+        '400':
+          description: Invalid request
+  /getCallerIDFiltering:
+    get:
+      summary: getCallerIDFiltering
+      operationId: getCallerIDFiltering
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: CallerID filtering
+        '400':
+          description: Invalid request
+  /getCallHuntings:
+    get:
+      summary: getCallHuntings
+      operationId: getCallHuntings
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call huntings
+        '400':
+          description: Invalid request
+  /getCarriers:
+    get:
+      summary: getCarriers
+      operationId: getCarriers
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Carriers list
+        '400':
+          description: Invalid request
+  /getDIDCountries:
+    get:
+      summary: getDIDCountries
+      operationId: getDIDCountries
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID countries
+        '400':
+          description: Invalid request
+  /getDIDsInternationalGeographic:
+    get:
+      summary: getDIDsInternationalGeographic
+      operationId: getDIDsInternationalGeographic
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Intl geographic DIDs
+        '400':
+          description: Invalid request
+  /getDIDsInternationalNational:
+    get:
+      summary: getDIDsInternationalNational
+      operationId: getDIDsInternationalNational
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Intl national DIDs
+        '400':
+          description: Invalid request
+  /getDIDsInternationalTollFree:
+    get:
+      summary: getDIDsInternationalTollFree
+      operationId: getDIDsInternationalTollFree
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Intl toll-free DIDs
+        '400':
+          description: Invalid request
+  /getDIDvPRI:
+    get:
+      summary: getDIDvPRI
+      operationId: getDIDvPRI
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DIDs assigned to VPRI
+        '400':
+          description: Invalid request
+  /getDISAs:
+    get:
+      summary: getDISAs
+      operationId: getDISAs
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DISAs
+        '400':
+          description: Invalid request
+  /getForwardings:
+    get:
+      summary: getForwardings
+      operationId: getForwardings
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Forwardings
+        '400':
+          description: Invalid request
+  /getInternationalTypes:
+    get:
+      summary: getInternationalTypes
+      operationId: getInternationalTypes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: International DID types
+        '400':
+          description: Invalid request
+  /getIVRs:
+    get:
+      summary: getIVRs
+      operationId: getIVRs
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: IVRs
+        '400':
+          description: Invalid request
+  /getJoinWhenEmptyTypes:
+    get:
+      summary: getJoinWhenEmptyTypes
+      operationId: getJoinWhenEmptyTypes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: JoinWhenEmpty types
+        '400':
+          description: Invalid request
+  /getMMS:
+    get:
+      summary: getMMS
+      operationId: getMMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: MMS list
+        '400':
+          description: Invalid request
+  /getMediaMMS:
+    get:
+      summary: getMediaMMS
+      operationId: getMediaMMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: MMS media file
+        '400':
+          description: Invalid request
+  /getPhonebook:
+    get:
+      summary: getPhonebook
+      operationId: getPhonebook
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Phonebook entries
+        '400':
+          description: Invalid request
+  /getPhonebookGroups:
+    get:
+      summary: getPhonebookGroups
+      operationId: getPhonebookGroups
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Phonebook groups
+        '400':
+          description: Invalid request
+  /getPortability:
+    get:
+      summary: getPortability
+      operationId: getPortability
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Portability check
+        '400':
+          description: Invalid request
+  /getProvinces:
+    get:
+      summary: getProvinces
+      operationId: getProvinces
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Provinces
+        '400':
+          description: Invalid request
+  /getQueues:
+    get:
+      summary: getQueues
+      operationId: getQueues
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Queues
+        '400':
+          description: Invalid request
+  /getRateCentersCAN:
+    get:
+      summary: getRateCentersCAN
+      operationId: getRateCentersCAN
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Canadian ratecenters
+        '400':
+          description: Invalid request
+  /getRateCentersUSA:
+    get:
+      summary: getRateCentersUSA
+      operationId: getRateCentersUSA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: USA ratecenters
+        '400':
+          description: Invalid request
+  /getRecordings:
+    get:
+      summary: getRecordings
+      operationId: getRecordings
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Recordings list
+        '400':
+          description: Invalid request
+  /getRecordingFile:
+    get:
+      summary: getRecordingFile
+      operationId: getRecordingFile
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Recording file (Base64)
+        '400':
+          description: Invalid request
+  /getRingGroups:
+    get:
+      summary: getRingGroups
+      operationId: getRingGroups
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Ring groups
+        '400':
+          description: Invalid request
+  /getRingStrategies:
+    get:
+      summary: getRingStrategies
+      operationId: getRingStrategies
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Ring strategies
+        '400':
+          description: Invalid request
+  /getSIPURIs:
+    get:
+      summary: getSIPURIs
+      operationId: getSIPURIs
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: SIP URIs
+        '400':
+          description: Invalid request
+  /getSMS:
+    get:
+      summary: getSMS
+      operationId: getSMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: SMS list
+        '400':
+          description: Invalid request
+  /getStates:
+    get:
+      summary: getStates
+      operationId: getStates
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: States
+        '400':
+          description: Invalid request
+  /getStaticMembers:
+    get:
+      summary: getStaticMembers
+      operationId: getStaticMembers
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Static members
+        '400':
+          description: Invalid request
+  /getTimeConditions:
+    get:
+      summary: getTimeConditions
+      operationId: getTimeConditions
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Time conditions
+        '400':
+          description: Invalid request
+  /getVoicemailSetups:
+    get:
+      summary: getVoicemailSetups
+      operationId: getVoicemailSetups
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail setups
+        '400':
+          description: Invalid request
+  /getVoicemailAttachmentFormats:
+    get:
+      summary: getVoicemailAttachmentFormats
+      operationId: getVoicemailAttachmentFormats
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Attachment formats
+        '400':
+          description: Invalid request
+  /orderDID:
+    get:
+      summary: orderDID
+      operationId: orderDID
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID ordered
+        '400':
+          description: Invalid request
+  /orderDIDInternationalGeographic:
+    get:
+      summary: orderDIDInternationalGeographic
+      operationId: orderDIDInternationalGeographic
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Intl geographic DID ordered
+        '400':
+          description: Invalid request
+  /orderDIDInternationalNational:
+    get:
+      summary: orderDIDInternationalNational
+      operationId: orderDIDInternationalNational
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Intl national DID ordered
+        '400':
+          description: Invalid request
+  /orderDIDInternationalTollFree:
+    get:
+      summary: orderDIDInternationalTollFree
+      operationId: orderDIDInternationalTollFree
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Intl toll-free DID ordered
+        '400':
+          description: Invalid request
+  /orderDIDVirtual:
+    get:
+      summary: orderDIDVirtual
+      operationId: orderDIDVirtual
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Virtual DID ordered
+        '400':
+          description: Invalid request
+  /orderTollFree:
+    get:
+      summary: orderTollFree
+      operationId: orderTollFree
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Toll-free ordered
+        '400':
+          description: Invalid request
+  /orderVanity:
+    get:
+      summary: orderVanity
+      operationId: orderVanity
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Vanity number ordered
+        '400':
+          description: Invalid request
+  /removeDIDvPRI:
+    get:
+      summary: removeDIDvPRI
+      operationId: removeDIDvPRI
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID removed from VPRI
+        '400':
+          description: Invalid request
+  /searchDIDsCAN:
+    get:
+      summary: searchDIDsCAN
+      operationId: searchDIDsCAN
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Search results
+        '400':
+          description: Invalid request
+  /searchDIDsUSA:
+    get:
+      summary: searchDIDsUSA
+      operationId: searchDIDsUSA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Search results
+        '400':
+          description: Invalid request
+  /searchTollFreeCanUS:
+    get:
+      summary: searchTollFreeCanUS
+      operationId: searchTollFreeCanUS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Toll-free search results
+        '400':
+          description: Invalid request
+  /searchTollFreeUSA:
+    get:
+      summary: searchTollFreeUSA
+      operationId: searchTollFreeUSA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Toll-free search results
+        '400':
+          description: Invalid request
+  /searchVanity:
+    get:
+      summary: searchVanity
+      operationId: searchVanity
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Vanity search results
+        '400':
+          description: Invalid request
+  /sendSMS:
+    get:
+      summary: sendSMS
+      operationId: sendSMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: message
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SMS sent
+        '400':
+          description: Invalid request
+  /sendMMS:
+    get:
+      summary: sendMMS
+      operationId: sendMMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: MMS sent
+        '400':
+          description: Invalid request
+  /setCallback:
+    get:
+      summary: setCallback
+      operationId: setCallback
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Callback set/updated
+        '400':
+          description: Invalid request
+  /setCallerIDFiltering:
+    get:
+      summary: setCallerIDFiltering
+      operationId: setCallerIDFiltering
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: CallerID filtering set
+        '400':
+          description: Invalid request
+  /setCallHunting:
+    get:
+      summary: setCallHunting
+      operationId: setCallHunting
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Call hunting set
+        '400':
+          description: Invalid request
+  /setDIDBillingType:
+    get:
+      summary: setDIDBillingType
+      operationId: setDIDBillingType
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID billing type set
+        '400':
+          description: Invalid request
+  /setDIDInfo:
+    get:
+      summary: setDIDInfo
+      operationId: setDIDInfo
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID info updated
+        '400':
+          description: Invalid request
+  /setDIDPOP:
+    get:
+      summary: setDIDPOP
+      operationId: setDIDPOP
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID POP updated
+        '400':
+          description: Invalid request
+  /setDIDRouting:
+    get:
+      summary: setDIDRouting
+      operationId: setDIDRouting
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID routing updated
+        '400':
+          description: Invalid request
+  /setDIDVoicemail:
+    get:
+      summary: setDIDVoicemail
+      operationId: setDIDVoicemail
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID voicemail updated
+        '400':
+          description: Invalid request
+  /setDISA:
+    get:
+      summary: setDISA
+      operationId: setDISA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DISA set/updated
+        '400':
+          description: Invalid request
+  /setForwarding:
+    get:
+      summary: setForwarding
+      operationId: setForwarding
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Forwarding set/updated
+        '400':
+          description: Invalid request
+  /setIVR:
+    get:
+      summary: setIVR
+      operationId: setIVR
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: IVR set/updated
+        '400':
+          description: Invalid request
+  /setPhonebook:
+    get:
+      summary: setPhonebook
+      operationId: setPhonebook
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Phonebook entry set/updated
+        '400':
+          description: Invalid request
+  /setPhonebookGroup:
+    get:
+      summary: setPhonebookGroup
+      operationId: setPhonebookGroup
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Phonebook group set/updated
+        '400':
+          description: Invalid request
+  /setQueue:
+    get:
+      summary: setQueue
+      operationId: setQueue
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Queue set/updated
+        '400':
+          description: Invalid request
+  /setRecording:
+    get:
+      summary: setRecording
+      operationId: setRecording
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Recording set/updated
+        '400':
+          description: Invalid request
+  /setRingGroup:
+    get:
+      summary: setRingGroup
+      operationId: setRingGroup
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Ring group set/updated
+        '400':
+          description: Invalid request
+  /setSIPURI:
+    get:
+      summary: setSIPURI
+      operationId: setSIPURI
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: SIP URI set/updated
+        '400':
+          description: Invalid request
+  /setSMS:
+    get:
+      summary: setSMS
+      operationId: setSMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: SMS settings updated
+        '400':
+          description: Invalid request
+  /setStaticMember:
+    get:
+      summary: setStaticMember
+      operationId: setStaticMember
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Static member added/updated
+        '400':
+          description: Invalid request
+  /setTimeCondition:
+    get:
+      summary: setTimeCondition
+      operationId: setTimeCondition
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Time condition set/updated
+        '400':
+          description: Invalid request
+  /unconnectDID:
+    get:
+      summary: unconnectDID
+      operationId: unconnectDID
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: DID unconnected
+        '400':
+          description: Invalid request
+  /connectFAX:
+    get:
+      summary: connectFAX
+      operationId: connectFAX
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: FAX connected
+        '400':
+          description: Invalid request
+  /unconnectFAX:
+    get:
+      summary: unconnectFAX
+      operationId: unconnectFAX
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: FAX unconnected
+        '400':
+          description: Invalid request
+  /cancelFaxNumber:
+    get:
+      summary: cancelFaxNumber
+      operationId: cancelFaxNumber
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax number cancelled
+        '400':
+          description: Invalid request
+  /deleteFaxMessage:
+    get:
+      summary: deleteFaxMessage
+      operationId: deleteFaxMessage
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax message deleted
+        '400':
+          description: Invalid request
+  /delEmailToFax:
+    get:
+      summary: delEmailToFax
+      operationId: delEmailToFax
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Email-to-fax config deleted
+        '400':
+          description: Invalid request
+  /delFaxFolder:
+    get:
+      summary: delFaxFolder
+      operationId: delFaxFolder
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax folder deleted
+        '400':
+          description: Invalid request
+  /getBackOrders:
+    get:
+      summary: getBackOrders
+      operationId: getBackOrders
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Backorders list
+        '400':
+          description: Invalid request
+  /getFaxProvinces:
+    get:
+      summary: getFaxProvinces
+      operationId: getFaxProvinces
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax provinces
+        '400':
+          description: Invalid request
+  /getFaxStates:
+    get:
+      summary: getFaxStates
+      operationId: getFaxStates
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax states
+        '400':
+          description: Invalid request
+  /getFaxRateCentersCAN:
+    get:
+      summary: getFaxRateCentersCAN
+      operationId: getFaxRateCentersCAN
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax ratecenters CAN
+        '400':
+          description: Invalid request
+  /getFaxRateCentersUSA:
+    get:
+      summary: getFaxRateCentersUSA
+      operationId: getFaxRateCentersUSA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax ratecenters USA
+        '400':
+          description: Invalid request
+  /getFaxNumbersInfo:
+    get:
+      summary: getFaxNumbersInfo
+      operationId: getFaxNumbersInfo
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax numbers
+        '400':
+          description: Invalid request
+  /getFaxNumbersPortability:
+    get:
+      summary: getFaxNumbersPortability
+      operationId: getFaxNumbersPortability
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax portability
+        '400':
+          description: Invalid request
+  /getFaxMessages:
+    get:
+      summary: getFaxMessages
+      operationId: getFaxMessages
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax messages
+        '400':
+          description: Invalid request
+  /getFaxMessagePDF:
+    get:
+      summary: getFaxMessagePDF
+      operationId: getFaxMessagePDF
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax message PDF (Base64)
+        '400':
+          description: Invalid request
+  /getFaxFolders:
+    get:
+      summary: getFaxFolders
+      operationId: getFaxFolders
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax folders
+        '400':
+          description: Invalid request
+  /getEmailToFax:
+    get:
+      summary: getEmailToFax
+      operationId: getEmailToFax
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Email-to-fax configs
+        '400':
+          description: Invalid request
+  /mailFaxMessagePDF:
+    get:
+      summary: mailFaxMessagePDF
+      operationId: mailFaxMessagePDF
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax mailed as PDF
+        '400':
+          description: Invalid request
+  /moveFaxMessage:
+    get:
+      summary: moveFaxMessage
+      operationId: moveFaxMessage
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax moved
+        '400':
+          description: Invalid request
+  /orderFaxNumber:
+    get:
+      summary: orderFaxNumber
+      operationId: orderFaxNumber
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax number ordered
+        '400':
+          description: Invalid request
+  /setFaxFolder:
+    get:
+      summary: setFaxFolder
+      operationId: setFaxFolder
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax folder set/updated
+        '400':
+          description: Invalid request
+  /setEmailToFax:
+    get:
+      summary: setEmailToFax
+      operationId: setEmailToFax
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Email-to-fax config set/updated
+        '400':
+          description: Invalid request
+  /searchFaxAreaCodeCAN:
+    get:
+      summary: searchFaxAreaCodeCAN
+      operationId: searchFaxAreaCodeCAN
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Search results
+        '400':
+          description: Invalid request
+  /searchFaxAreaCodeUSA:
+    get:
+      summary: searchFaxAreaCodeUSA
+      operationId: searchFaxAreaCodeUSA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Search results
+        '400':
+          description: Invalid request
+  /setFaxNumberInfo:
+    get:
+      summary: setFaxNumberInfo
+      operationId: setFaxNumberInfo
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax number info updated
+        '400':
+          description: Invalid request
+  /setFaxNumberEmail:
+    get:
+      summary: setFaxNumberEmail
+      operationId: setFaxNumberEmail
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax number email updated
+        '400':
+          description: Invalid request
+  /setFaxNumberURLCallback:
+    get:
+      summary: setFaxNumberURLCallback
+      operationId: setFaxNumberURLCallback
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax number callback URL updated
+        '400':
+          description: Invalid request
+  /sendFaxMessage:
+    get:
+      summary: sendFaxMessage
+      operationId: sendFaxMessage
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Fax sent
+        '400':
+          description: Invalid request
+  /e911AddressTypes:
+    get:
+      summary: e911AddressTypes
+      operationId: e911AddressTypes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: e911 address types
+        '400':
+          description: Invalid request
+  /e911Cancel:
+    get:
+      summary: e911Cancel
+      operationId: e911Cancel
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: e911 cancelled
+        '400':
+          description: Invalid request
+  /e911Info:
+    get:
+      summary: e911Info
+      operationId: e911Info
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: e911 info
+        '400':
+          description: Invalid request
+  /e911Provision:
+    get:
+      summary: e911Provision
+      operationId: e911Provision
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: e911 provisioned
+        '400':
+          description: Invalid request
+  /e911ProvisionManually:
+    get:
+      summary: e911ProvisionManually
+      operationId: e911ProvisionManually
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: e911 provisioned manually
+        '400':
+          description: Invalid request
+  /e911Update:
+    get:
+      summary: e911Update
+      operationId: e911Update
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: e911 updated
+        '400':
+          description: Invalid request
+  /e911Validate:
+    get:
+      summary: e911Validate
+      operationId: e911Validate
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: e911 validated
+        '400':
+          description: Invalid request
+  /addLNPPort:
+    get:
+      summary: addLNPPort
+      operationId: addLNPPort
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP port added
+        '400':
+          description: Invalid request
+  /addLNPFile:
+    get:
+      summary: addLNPFile
+      operationId: addLNPFile
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP file added
+        '400':
+          description: Invalid request
+  /getLNPStatus:
+    get:
+      summary: getLNPStatus
+      operationId: getLNPStatus
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP status
+        '400':
+          description: Invalid request
+  /getLNPNotes:
+    get:
+      summary: getLNPNotes
+      operationId: getLNPNotes
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP notes
+        '400':
+          description: Invalid request
+  /getLNPListStatus:
+    get:
+      summary: getLNPListStatus
+      operationId: getLNPListStatus
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP list status
+        '400':
+          description: Invalid request
+  /getLNPList:
+    get:
+      summary: getLNPList
+      operationId: getLNPList
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP list
+        '400':
+          description: Invalid request
+  /getLNPDetails:
+    get:
+      summary: getLNPDetails
+      operationId: getLNPDetails
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP details
+        '400':
+          description: Invalid request
+  /getLNPAttachList:
+    get:
+      summary: getLNPAttachList
+      operationId: getLNPAttachList
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP attachments list
+        '400':
+          description: Invalid request
+  /getLNPAttach:
+    get:
+      summary: getLNPAttach
+      operationId: getLNPAttach
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: LNP attached file info
+        '400':
+          description: Invalid request
+  /createVoicemail:
+    get:
+      summary: createVoicemail
+      operationId: createVoicemail
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail created
+        '400':
+          description: Invalid request
+  /delMessages:
+    get:
+      summary: delMessages
+      operationId: delMessages
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail messages deleted
+        '400':
+          description: Invalid request
+  /delMemberFromConference:
+    get:
+      summary: delMemberFromConference
+      operationId: delMemberFromConference
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Member removed from conference
+        '400':
+          description: Invalid request
+  /delVoicemail:
+    get:
+      summary: delVoicemail
+      operationId: delVoicemail
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail deleted
+        '400':
+          description: Invalid request
+  /getPlayInstructions:
+    get:
+      summary: getPlayInstructions
+      operationId: getPlayInstructions
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Play instructions
+        '400':
+          description: Invalid request
+  /getTimezones:
+    get:
+      summary: getTimezones
+      operationId: getTimezones
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Timezones
+        '400':
+          description: Invalid request
+  /getVoicemails:
+    get:
+      summary: getVoicemails
+      operationId: getVoicemails
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemails
+        '400':
+          description: Invalid request
+  /getVoicemailFolders:
+    get:
+      summary: getVoicemailFolders
+      operationId: getVoicemailFolders
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail folders
+        '400':
+          description: Invalid request
+  /getVoicemailMessageFile:
+    get:
+      summary: getVoicemailMessageFile
+      operationId: getVoicemailMessageFile
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail message file (Base64)
+        '400':
+          description: Invalid request
+  /getVoicemailMessages:
+    get:
+      summary: getVoicemailMessages
+      operationId: getVoicemailMessages
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail messages list
+        '400':
+          description: Invalid request
+  /getVPRIs:
+    get:
+      summary: getVPRIs
+      operationId: getVPRIs
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: VPRIs
+        '400':
+          description: Invalid request
+  /markListenedVoicemailMessage:
+    get:
+      summary: markListenedVoicemailMessage
+      operationId: markListenedVoicemailMessage
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Marked listened/unlistened
+        '400':
+          description: Invalid request
+  /markUrgentVoicemailMessage:
+    get:
+      summary: markUrgentVoicemailMessage
+      operationId: markUrgentVoicemailMessage
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Marked urgent/not urgent
+        '400':
+          description: Invalid request
+  /moveFolderVoicemailMessage:
+    get:
+      summary: moveFolderVoicemailMessage
+      operationId: moveFolderVoicemailMessage
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Message moved
+        '400':
+          description: Invalid request
+  /sendVoicemailEmail:
+    get:
+      summary: sendVoicemailEmail
+      operationId: sendVoicemailEmail
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail emailed
+        '400':
+          description: Invalid request
+  /setVoicemail:
+    get:
+      summary: setVoicemail
+      operationId: setVoicemail
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - $ref: '#/components/parameters/MethodParam'
+      responses:
+        '200':
+          description: Voicemail set/updated
+        '400':
+          description: Invalid request
 security:
   - basicAuth: []
+*** End File
