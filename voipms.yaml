@@ -35,110 +35,15 @@ components:
         type: string
       description: Specific DID number
 paths:
-  /:
-    get:
-      summary: Get Canadian DIDs
-      description: Retrieves a list of Canadian DIDs by Province and Ratecenter.
-      operationId: getDIDsCAN
-      parameters:
-        - $ref: '#/components/parameters/ApiUsername'
-        - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getDIDsCAN]
-          description: API method to call
-        - name: province
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Canadian province abbreviation (e.g., ON, QC)
-        - name: ratecenter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Ratecenter name
-      responses:
-        '200':
-          description: List of Canadian DIDs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  dids:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        did:
-                          type: string
-                        province:
-                          type: string
-                        ratecenter:
-                          type: string
-        '400':
-          description: Invalid request
-  /getDIDsUSA:
-    get:
-      summary: Get USA DIDs
-      description: Retrieves a list of USA DIDs by State and Ratecenter.
-      operationId: getDIDsUSA
-      parameters:
-        - $ref: '#/components/parameters/ApiUsername'
-        - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [getDIDsUSA]
-          description: API method to call
-        - name: state
-          in: query
-          required: false
-          schema:
-            type: string
-          description: US state abbreviation (e.g., NY, CA)
-        - name: ratecenter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Ratecenter name
-      responses:
-        '200':
-          description: List of USA DIDs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  dids:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        did:
-                          type: string
-                        state:
-                          type: string
-                        ratecenter:
-                          type: string
-        '400':
-          description: Invalid request
   /getDIDsInfo:
     get:
       summary: Get DIDs Info
-      description: Retrieves information from all your DIDs or a specific DID if provided.
+      description: |-
+        - Retrieves information from all your DIDs if no additional parameter is provided.
+        - Retrieves information from Reseller Client's DIDs if a Reseller Client ID is provided.
+        - Retrieves information from Sub Account's DIDs if a Sub Account is provided.
+        - Retrieves information from a specific DID if a DID Number is provided.
+        - Retrieves SMS information from a specific DID if the SMS is available.
       operationId: getDIDsInfo
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
@@ -151,6 +56,24 @@ paths:
             enum: [getDIDsInfo]
           description: API method to call
         - $ref: '#/components/parameters/DIDNumber'
+        - name: reseller_client_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Reseller Client ID to filter DIDs (returns reseller client's DIDs)
+        - name: subaccount
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Sub account identifier to filter DIDs
+        - name: include_sms
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: If true, include SMS-related information when available
       responses:
         '200':
           description: DID information
@@ -168,8 +91,18 @@ paths:
                       properties:
                         did:
                           type: string
+                        owner_type:
+                          type: string
+                          description: Owner type (account, reseller_client, subaccount)
+                        reseller_client_id:
+                          type: string
+                        subaccount:
+                          type: string
                         info:
                           type: object
+                        sms_info:
+                          type: object
+                          description: SMS-related data if available
         '400':
           description: Invalid request
 security:
