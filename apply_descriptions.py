@@ -37,12 +37,12 @@ for path_key, path_item in list(paths.items()):
     key_name = path_key.lstrip('/')
     if key_name in mapping:
         desc = mapping[key_name]
-        # Update description for GET operation if exists
+        # Update summary for GET operation if exists (also leave description unchanged)
         getop = path_item.get('get')
         if getop is not None:
-            existing = getop.get('description', '')
-            if existing != desc:
-                getop['description'] = desc
+            existing_summary = getop.get('summary', '')
+            if existing_summary != desc:
+                getop['summary'] = desc
                 updated += 1
 
 # Write back YAML
