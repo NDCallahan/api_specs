@@ -32,7 +32,7 @@ security:
 paths:
   /addCharge:
     get:
-      summary: Add Charge
+      summary: Adds a Charge to a specific Reseller Client
       operationId: addCharge
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -85,7 +85,7 @@ paths:
           description: Invalid request or API error
   /addPayment:
     get:
-      summary: Adds a payment to a specific reseller client.
+      summary: Adds a Payment to a specific Reseller Client
       operationId: addPayment
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -134,7 +134,7 @@ paths:
       description: Adds a payment to a specific reseller client.
   /assignDIDvPRI:
     get:
-      summary: Assign D I Dv P R I
+      summary: Assigns a Per Minute DID to a VPRI
       operationId: assignDIDvPRI
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -172,7 +172,7 @@ paths:
           description: Invalid request or API error
   /backOrderDIDUSA:
     get:
-      summary: Back Order D I D U S A
+      summary: Backorder DID (USA) from specific ratecenter/state
       operationId: backOrderDIDUSA
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -275,7 +275,7 @@ paths:
           description: Invalid request or API error
   /backOrderDIDCAN:
     get:
-      summary: Back Order D I D C A N
+      summary: Backorder DID (CANADA) from specific ratecenter/province
       operationId: backOrderDIDCAN
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -378,7 +378,7 @@ paths:
           description: Invalid request or API error
   /cancelDID:
     get:
-      summary: Removes a DID from the account.
+      summary: Deletes a specific DID from your Account
       operationId: cancelDID
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -427,7 +427,7 @@ paths:
       description: Removes a DID from the account.
   /connectDID:
     get:
-      summary: Connect D I D
+      summary: Connects a specific DID to a Reseller Client Sub Account
       operationId: connectDID
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -495,7 +495,7 @@ paths:
           description: Invalid request or API error
   /connectFAX:
     get:
-      summary: Connect F A X
+      summary: Connects a FAX DID to a Reseller Client Sub Account
       operationId: connectFAX
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -563,7 +563,7 @@ paths:
           description: Invalid request or API error
   /createSubAccount:
     get:
-      summary: Adds a new sub-account to your account.
+      summary: Adds a new Sub Account entry to your Account
       operationId: createSubAccount
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -787,7 +787,7 @@ paths:
       description: Adds a new sub-account to your account.
   /createVoicemail:
     get:
-      summary: Adds a new voicemail box to the account.
+      summary: Adds a new Voicemail entry to your Account
       operationId: createVoicemail
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -896,7 +896,7 @@ paths:
       description: Adds a new voicemail box to the account.
   /delCallback:
     get:
-      summary: Del Callback
+      summary: Deletes a specific Callback from your Account
       operationId: delCallback
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -929,7 +929,7 @@ paths:
           description: Invalid request or API error
   /delCallerIDFiltering:
     get:
-      summary: Del Caller I D Filtering
+      summary: Deletes a specific CallerID Filtering
       operationId: delCallerIDFiltering
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -962,7 +962,7 @@ paths:
           description: Invalid request or API error
   /delCallRecording:
     get:
-      summary: Deletes a specific call recording and its data.
+      summary: Delete specific call recording and related info
       operationId: delCallRecording
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1001,7 +1001,7 @@ paths:
       description: Deletes a specific call recording and its data.
   /delClient:
     get:
-      summary: Del Client
+      summary: Deletes a specific reseller client
       operationId: delClient
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1034,7 +1034,7 @@ paths:
           description: Invalid request or API error
   /delDISA:
     get:
-      summary: Del D I S A
+      summary: Deletes a specific DISA
       operationId: delDISA
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1067,7 +1067,7 @@ paths:
           description: Invalid request or API error
   /delForwarding:
     get:
-      summary: Del Forwarding
+      summary: Deletes a specific Forwarding
       operationId: delForwarding
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1100,7 +1100,7 @@ paths:
           description: Invalid request or API error
   /delIVR:
     get:
-      summary: Del I V R
+      summary: Deletes a specific IVR
       operationId: delIVR
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1133,7 +1133,7 @@ paths:
           description: Invalid request or API error
   /delMessages:
     get:
-      summary: Del Messages
+      summary: Deletes all messages from a specific Voicemail
       operationId: delMessages
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1176,7 +1176,7 @@ paths:
           description: Invalid request or API error
   /delPhonebook:
     get:
-      summary: Del Phonebook
+      summary: Deletes a specific Phonebook entry
       operationId: delPhonebook
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1209,7 +1209,7 @@ paths:
           description: Invalid request or API error
   /delPhonebookGroup:
     get:
-      summary: Del Phonebook Group
+      summary: Deletes a specific Phonebook group
       operationId: delPhonebookGroup
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1242,7 +1242,7 @@ paths:
           description: Invalid request or API error
   /delQueue:
     get:
-      summary: Del Queue
+      summary: Deletes a specific Queue
       operationId: delQueue
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1275,7 +1275,7 @@ paths:
           description: Invalid request or API error
   /delRecording:
     get:
-      summary: Del Recording
+      summary: Deletes a specific Recording
       operationId: delRecording
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1308,7 +1308,7 @@ paths:
           description: Invalid request or API error
   /delRingGroup:
     get:
-      summary: Del Ring Group
+      summary: Deletes a specific Ring Group
       operationId: delRingGroup
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1341,7 +1341,7 @@ paths:
           description: Invalid request or API error
   /delSIPURI:
     get:
-      summary: Del S I P U R I
+      summary: Deletes a specific SIP URI
       operationId: delSIPURI
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1374,7 +1374,7 @@ paths:
           description: Invalid request or API error
   /deleteSMS:
     get:
-      summary: Delete S M S
+      summary: Deletes a specific SMS
       operationId: deleteSMS
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1407,7 +1407,7 @@ paths:
           description: Invalid request or API error
   /deleteMMS:
     get:
-      summary: Delete M M S
+      summary: Deletes a specific MMS
       operationId: deleteMMS
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1440,7 +1440,7 @@ paths:
           description: Invalid request or API error
   /delStaticMember:
     get:
-      summary: Del Static Member
+      summary: Deletes a specific Static Member from Queue
       operationId: delStaticMember
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1478,7 +1478,7 @@ paths:
           description: Invalid request or API error
   /delSubAccount:
     get:
-      summary: Deletes a specific sub-account.
+      summary: Deletes a specific Sub Account from your Account
       operationId: delSubAccount
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1512,7 +1512,7 @@ paths:
       description: Deletes a specific sub-account.
   /delTimeCondition:
     get:
-      summary: Del Time Condition
+      summary: Deletes a specific Time Condition
       operationId: delTimeCondition
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1545,7 +1545,7 @@ paths:
           description: Invalid request or API error
   /delVoicemail:
     get:
-      summary: Del Voicemail
+      summary: Deletes a specific Voicemail from your Account
       operationId: delVoicemail
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1578,7 +1578,7 @@ paths:
           description: Invalid request or API error
   /getAllowedCodecs:
     get:
-      summary: Lists supported audio codecs (ulaw, g729, etc.).
+      summary: Retrieves a list of Allowed Codecs
       operationId: getAllowedCodecs
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1612,7 +1612,7 @@ paths:
       description: Lists supported audio codecs (ulaw, g729, etc.).
   /getAuthTypes:
     get:
-      summary: Lists authentication methods (User/Pass vs. IP).
+      summary: Retrieves a list of Authentication Types
       operationId: getAuthTypes
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1646,7 +1646,7 @@ paths:
       description: Lists authentication methods (User/Pass vs. IP).
   /getBalance:
     get:
-      summary: Retrieves account balance and optional call statistics.
+      summary: Retrieves Balance and optional Call Statistics
       operationId: getBalance
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1680,7 +1680,7 @@ paths:
       description: Retrieves account balance and optional call statistics.
   /getBalanceManagement:
     get:
-      summary: Get Balance Management
+      summary: Retrieves a list of Balance Management Options
       operationId: getBalanceManagement
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1713,7 +1713,7 @@ paths:
           description: Invalid request or API error
   /getCallAccounts:
     get:
-      summary: Retrieves sub-accounts for billing purposes.
+      summary: Retrieves all Sub Accounts for CDR purposes
       operationId: getCallAccounts
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1742,7 +1742,7 @@ paths:
       description: Retrieves sub-accounts for billing purposes.
   /getCallbacks:
     get:
-      summary: Get Callbacks
+      summary: Retrieves a list of Callbacks or a specific one
       operationId: getCallbacks
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1775,7 +1775,7 @@ paths:
           description: Invalid request or API error
   /getCallBilling:
     get:
-      summary: Get Call Billing
+      summary: Retrieves a list of Call Billing Options
       operationId: getCallBilling
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1803,7 +1803,7 @@ paths:
           description: Invalid request or API error
   /getCallerIDFiltering:
     get:
-      summary: Get Caller I D Filtering
+      summary: Retrieves a list of CallerID Filterings
       operationId: getCallerIDFiltering
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1841,7 +1841,7 @@ paths:
           description: Invalid request or API error
   /getCallTypes:
     get:
-      summary: Get Call Types
+      summary: Retrieves a list of Call Types and All DIDs
       operationId: getCallTypes
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1874,7 +1874,7 @@ paths:
           description: Invalid request or API error
   /getCarriers:
     get:
-      summary: Get Carriers
+      summary: Retrieves a list of Carriers for Vanity Numbers
       operationId: getCarriers
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1907,7 +1907,7 @@ paths:
           description: Invalid request or API error
   /getCDR:
     get:
-      summary: Retrieves main Call Detail Records.
+      summary: Retrieves the Call Detail Records of all your calls
       operationId: getCDR
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -1986,7 +1986,7 @@ paths:
       description: Retrieves main Call Detail Records.
   /getCharges:
     get:
-      summary: Get Charges
+      summary: Retrieves Charges made to a specific Reseller Client
       operationId: getCharges
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -2019,7 +2019,7 @@ paths:
           description: Invalid request or API error
   /getClientPackages:
     get:
-      summary: Lists packages assigned to a reseller client.
+      summary: Retrieves a list of Packages for a specific Client
       operationId: getClientPackages
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -2053,7 +2053,7 @@ paths:
       description: Lists packages assigned to a reseller client.
   /getClients:
     get:
-      summary: Retrieves all or specific reseller client details.
+      summary: Retrieves a list of all Clients or a specific one
       operationId: getClients
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -2087,7 +2087,7 @@ paths:
       description: Retrieves all or specific reseller client details.
   /getClientThreshold:
     get:
-      summary: Get Client Threshold
+      summary: Retrieves Threshold Info for a specific Reseller Client
       operationId: getClientThreshold
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -2120,7 +2120,7 @@ paths:
           description: Invalid request or API error
   /getCountries:
     get:
-      summary: Retrieves a list of supported countries.
+      summary: Retrieves a list of Countries or a specific one
       operationId: getCountries
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -2154,7 +2154,7 @@ paths:
       description: Retrieves a list of supported countries.
   /getDeposits:
     get:
-      summary: Get Deposits
+      summary: Retrieves Deposits made for a specific Reseller Client
       operationId: getDeposits
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
@@ -2187,7 +2187,7 @@ paths:
           description: Invalid request or API error
   /getDeviceTypes:
     get:
-      summary: Lists hardware types (Asterisk, IP Phone, etc.).
+      summary: Retrieves a list of Device Types
       operationId: getDeviceTypes
       parameters:
       - $ref: '#/components/parameters/ApiUsername'
