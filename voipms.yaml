@@ -55,7 +55,9 @@ paths:
   /getBalance:
     get:
       summary: getBalance
-      description: Retrieves Balance for your Account or advanced stats if `advanced=true`.
+      description: |
+        - Retrieves Balance for your Account if no additional parameter is provided.
+        - Retrieves Balance and Calls Statistics for your Account if "advanced" parameter is true.
       operationId: getBalance
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
@@ -80,7 +82,9 @@ paths:
   /getConference:
     get:
       summary: getConference
-      description: Retrieve list of conferences or specific conference by code.
+      description: |
+        - Retrieves a list of Conferences if no additional parameter is provided.
+        - Retrieves a specific Conference if a conference code is provided.
       operationId: getConference
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
@@ -105,6 +109,9 @@ paths:
   /getConferenceMembers:
     get:
       summary: getConferenceMembers
+      description: |
+        - Retrieves a list of Member profiles if no additional parameter is provided.
+        - Retrieves a specific member if a member code is provided.
       operationId: getConferenceMembers
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
@@ -129,6 +136,8 @@ paths:
   /getConferenceRecordings:
     get:
       summary: getConferenceRecordings
+      description: |
+        - Retrieves a list of recordings of a specific conference.
       operationId: getConferenceRecordings
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
@@ -153,6 +162,8 @@ paths:
   /getConferenceRecordingFile:
     get:
       summary: getConferenceRecordingFile
+      description: |
+        - Retrieves a specific Recording File data in Base64 format.
       operationId: getConferenceRecordingFile
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
