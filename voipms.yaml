@@ -5,7 +5,7 @@ info:
     OpenAPI specification for the VoIP.ms API. This spec includes authentication and several DID-related endpoints as examples. Extend as needed for other endpoints.
   version: 1.0.0
 servers:
-  - url: https://voip.ms/api/v1/rest.php
+  - url: https://voip.ms/api/v1/rest.php/
     description: Production server
 components:
   securitySchemes:
@@ -35,7 +35,7 @@ components:
         type: string
       description: Specific DID number
 paths:
-  /getDIDsInfo:
+  getDIDsInfo:
     get:
       summary: Get DIDs Info
       description: |-
