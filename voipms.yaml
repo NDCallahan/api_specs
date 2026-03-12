@@ -38,12 +38,7 @@ paths:
   getDIDsInfo:
     get:
       summary: Get DIDs Info
-      description: |-
-        - Retrieves information from all your DIDs if no additional parameter is provided.
-        - Retrieves information from Reseller Client's DIDs if a Reseller Client ID is provided.
-        - Retrieves information from Sub Account's DIDs if a Sub Account is provided.
-        - Retrieves information from a specific DID if a DID Number is provided.
-        - Retrieves SMS information from a specific DID if the SMS is available.
+      description: Retrieves information from all your DIDs
       operationId: getDIDsInfo
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
@@ -103,6 +98,62 @@ paths:
                         sms_info:
                           type: object
                           description: SMS-related data if available
+        '400':
+          description: Invalid request
+  sendSMS:
+    get:
+      summary: Send SMS
+      description: Sends an SMS message from one of your DIDs to a destination number.
+      operationId: sendSMS
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [sendSMS]
+          description: API method to call
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Originating DID (your number)
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Destination phone number
+        - name: message
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Message text (UTF-8)
+        - name: coding
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [text, unicode]
+          description: Message coding (text or unicode)
+      responses:
+        '200':
+          description: SMS send result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message_id:
+                    type: string
+                  description:
+                    type: string
         '400':
           description: Invalid request
 security:
