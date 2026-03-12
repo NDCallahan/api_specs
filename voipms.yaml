@@ -52,6 +52,29 @@ components:
         type: string
       description: Specific DID number
 paths:
+  /getDIDsInfo:
+    get:
+      summary: getDIDsInfo
+      description: |
+        - Retrieves a list of DIDs if no additional parameter is provided.
+        - Retrieves a specific DID if a DID number is provided.
+      operationId: getDIDsInfo
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDIDsInfo]
+          default: getDIDsInfo
+        - $ref: '#/components/parameters/DIDNumber'
+      responses:
+        '200':
+          description: DID(s) info
+        '400':
+          description: Invalid request
   /api/v1/rest.php/getBalance:
     get:
       summary: getBalance
@@ -225,7 +248,6 @@ paths:
             enum: [getCountries]
           default: getCountries
         - name: country
-----------
   /getLanguages:
     get:
       summary: getLanguages
@@ -2693,6 +2715,110 @@ paths:
       responses:
         '200':
           description: Search results
+        '400':
+          description: Invalid request
+
+  /:
+    get:
+      summary: Get Canadian DIDs
+      description: Retrieves a list of Canadian DIDs by Province and Ratecenter.
+      operationId: getDIDsCAN
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getDIDsCAN]
+          description: API method to call
+        - name: province
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Canadian province abbreviation (e.g., ON, QC)
+        - name: ratecenter
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Ratecenter name
+      responses:
+        '200':
+          description: List of Canadian DIDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  dids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        did:
+                          type: string
+                        province:
+                          type: string
+                        ratecenter:
+                          type: string
+        '400':
+          description: Invalid request
+
+  /getDIDsUSA:
+    get:
+      summary: Get USA DIDs
+      description: Retrieves a list of USA DIDs by State and Ratecenter.
+      operationId: getDIDsUSA
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getDIDsUSA]
+          description: API method to call
+        - name: state
+          in: query
+          required: false
+          schema:
+            type: string
+          description: US state abbreviation (e.g., NY, CA)
+        - name: ratecenter
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Ratecenter name
+      responses:
+        '200':
+          description: List of USA DIDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  dids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        did:
+                          type: string
+                        state:
+                          type: string
+                        ratecenter:
+                          type: string
+        '400':
+          description: Invalid request
         '400':
           description: Invalid request
   /searchTollFreeCanUS:
