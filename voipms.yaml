@@ -52,7 +52,7 @@ components:
         type: string
       description: Specific DID number
 paths:
-  /getBalance:
+  /api/v1/rest.php/getBalance:
     get:
       summary: getBalance
       description: |
@@ -79,7 +79,7 @@ paths:
           description: Balance returned
         '400':
           description: Invalid request
-  /getConference:
+  /api/v1/rest.php/getConference:
     get:
       summary: getConference
       description: |
@@ -106,7 +106,7 @@ paths:
           description: Conference(s) info
         '400':
           description: Invalid request
-  /getConferenceMembers:
+  /api/v1/rest.php/getConferenceMembers:
     get:
       summary: getConferenceMembers
       description: |
@@ -133,7 +133,7 @@ paths:
           description: Members list or member
         '400':
           description: Invalid request
-  /getConferenceRecordings:
+  /api/v1/rest.php/getConferenceRecordings:
     get:
       summary: getConferenceRecordings
       description: |
@@ -159,7 +159,7 @@ paths:
           description: Recordings list
         '400':
           description: Invalid request
-  /getConferenceRecordingFile:
+  /api/v1/rest.php/getConferenceRecordingFile:
     get:
       summary: getConferenceRecordingFile
       description: |
@@ -186,7 +186,7 @@ paths:
           description: Base64 recording file
         '400':
           description: Invalid request
-  /getSequences:
+  /api/v1/rest.php/getSequences:
     get:
       summary: getSequences
       operationId: getSequences
@@ -210,7 +210,7 @@ paths:
           description: Sequences
         '400':
           description: Invalid request
-  /getCountries:
+  /api/v1/rest.php/getCountries:
     get:
       summary: getCountries
       operationId: getCountries
@@ -225,33 +225,7 @@ paths:
             enum: [getCountries]
           default: getCountries
         - name: country
-          in: query
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Country list/info
-        '400':
-          description: Invalid request
-  /getIP:
-    get:
-      summary: getIP
-      description: Shows the IP used by the client application requesting information from the API (no auth required).
-      operationId: getIP
-      parameters:
-        - name: method
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: [getIP]
-          default: getIP
-      responses:
-        '200':
-          description: IP info
-        '400':
-          description: Invalid request
+----------
   /getLanguages:
     get:
       summary: getLanguages
