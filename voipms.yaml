@@ -10,8 +10,8 @@ info:
     can expand with real schemas.
   version: 1.0.0
 servers:
-  - url: https://voip.ms/api/v1/rest.php
-    description: VoIP.ms REST API endpoint. Each path (e.g. /getBalance) is exposed as a unique action for tooling. At runtime VoIP.ms resolves calls by the method query parameter; the path segment is used to create distinct entries in tools like Budibase.
+  - url: https://voip.ms
+    description: VoIP.ms REST API host. The legacy endpoint is /api/v1/rest.php; paths in this spec are exposed as /api/v1/rest.php/<action> so tooling shows each function as its own path.
 components:
   securitySchemes:
     basicAuth:
