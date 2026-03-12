@@ -243,6 +243,58 @@ paths:
                     type: string
         '400':
           description: Invalid request
+  getSubAccounts:
+    get:
+      summary: Get Sub Accounts
+      description: Retrieves a list of sub-accounts for the authenticated account or reseller.
+      operationId: getSubAccounts
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [getSubAccounts]
+          description: API method to call
+        - name: reseller_client_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Reseller Client ID to list subaccounts for a reseller
+        - name: include_disabled
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Include disabled/inactive subaccounts in the list
+      responses:
+        '200':
+          description: List of subaccounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  subaccounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        subaccount:
+                          type: string
+                        subaccount_id:
+                          type: string
+                        email:
+                          type: string
+                        enabled:
+                          type: boolean
+        '400':
+          description: Invalid request
   sendSMS:
     get:
       summary: Send SMS
