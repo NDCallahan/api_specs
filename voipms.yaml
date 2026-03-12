@@ -10,10 +10,8 @@ info:
     can expand with real schemas.
   version: 1.0.0
 servers:
-  - url: https://voip.ms
-    description: Production host — the specification exposes each VoIP.ms function as its own path under /api/v1/rest.php/{method} so tooling (Budibase) can import them as separate actions.
   - url: https://voip.ms/api/v1/rest.php
-    description: Legacy single-endpoint form (rest.php?method=...) retained for completeness
+    description: VoIP.ms REST API endpoint. Each path (e.g. /getBalance) is exposed as a unique action for tooling. At runtime VoIP.ms resolves calls by the method query parameter; the path segment is used to create distinct entries in tools like Budibase.
 components:
   securitySchemes:
     basicAuth:
@@ -62,7 +60,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getBalance]
+          default: getBalance
         - name: advanced
           in: query
           required: false
@@ -81,7 +85,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getConference]
+          default: getConference
         - name: conference
           in: query
           required: false
@@ -99,7 +109,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getConferenceMembers]
+          default: getConferenceMembers
         - name: member
           in: query
           required: false
@@ -117,7 +133,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getConferenceRecordings]
+          default: getConferenceRecordings
         - name: conference
           in: query
           required: true
@@ -135,7 +157,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getConferenceRecordingFile]
+          default: getConferenceRecordingFile
         - name: recording
           in: query
           required: true
@@ -154,7 +182,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getSequences]
+          default: getSequences
         - name: sequence
           in: query
           required: false
@@ -172,7 +206,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCountries]
+          default: getCountries
         - name: country
           in: query
           required: false
@@ -189,7 +229,13 @@ paths:
       description: Shows the IP used by the client application requesting information from the API (no auth required).
       operationId: getIP
       parameters:
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getIP]
+          default: getIP
       responses:
         '200':
           description: IP info
@@ -202,7 +248,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLanguages]
+          default: getLanguages
       responses:
         '200':
           description: Languages
@@ -215,7 +267,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLocales]
+          default: getLocales
       responses:
         '200':
           description: Locales
@@ -228,7 +286,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getServersInfo]
+          default: getServersInfo
         - name: pop
           in: query
           required: false
@@ -246,7 +310,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getTransactionHistory]
+          default: getTransactionHistory
         - name: from
           in: query
           required: true
@@ -271,7 +341,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [createSubAccount]
+          default: createSubAccount
       responses:
         '200':
           description: Subaccount created
@@ -284,7 +360,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delSubAccount]
+          default: delSubAccount
       responses:
         '200':
           description: Subaccount deleted
@@ -297,7 +379,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getAllowedCodecs]
+          default: getAllowedCodecs
       responses:
         '200':
           description: Allowed codecs
@@ -310,7 +398,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getAuthTypes]
+          default: getAuthTypes
       responses:
         '200':
           description: Auth types
@@ -323,7 +417,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDeviceTypes]
+          default: getDeviceTypes
       responses:
         '200':
           description: Device types
@@ -336,7 +436,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDTMFModes]
+          default: getDTMFModes
       responses:
         '200':
           description: DTMF modes
@@ -349,7 +455,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getInvoice]
+          default: getInvoice
         - name: invoice_id
           in: query
           required: false
@@ -367,7 +479,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLockInternational]
+          default: getLockInternational
       responses:
         '200':
           description: Lock international options
@@ -380,7 +498,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getMusicOnHold]
+          default: getMusicOnHold
       responses:
         '200':
           description: Music on hold options
@@ -393,7 +517,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delMusicOnHold]
+          default: delMusicOnHold
         - name: moh_id
           in: query
           required: true
@@ -411,7 +541,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getNAT]
+          default: getNAT
       responses:
         '200':
           description: NAT options
@@ -424,7 +560,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getProtocols]
+          default: getProtocols
       responses:
         '200':
           description: Protocols list
@@ -437,7 +579,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRegistrationStatus]
+          default: getRegistrationStatus
       responses:
         '200':
           description: Registration status
@@ -450,7 +598,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getReportEstimatedHoldTime]
+          default: getReportEstimatedHoldTime
       responses:
         '200':
           description: Report estimated hold time types
@@ -463,7 +617,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRoutes]
+          default: getRoutes
       responses:
         '200':
           description: Routes
@@ -476,7 +636,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getSubAccounts]
+          default: getSubAccounts
       responses:
         '200':
           description: Sub accounts list
@@ -489,7 +655,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallTranscriptions]
+          default: getCallTranscriptions
       responses:
         '200':
           description: Call transcriptions
@@ -502,7 +674,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVoicemailTranscriptions]
+          default: getVoicemailTranscriptions
       responses:
         '200':
           description: Voicemail transcriptions
@@ -515,7 +693,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [addMemberToConference]
+          default: addMemberToConference
       responses:
         '200':
           description: Member added
@@ -528,7 +712,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setSubAccount]
+          default: setSubAccount
       responses:
         '200':
           description: Subaccount updated
@@ -541,7 +731,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallAccounts]
+          default: getCallAccounts
       responses:
         '200':
           description: Call accounts
@@ -554,7 +750,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallBilling]
+          default: getCallBilling
       responses:
         '200':
           description: Call billing options
@@ -567,7 +769,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallTypes]
+          default: getCallTypes
       responses:
         '200':
           description: Call types
@@ -580,7 +788,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCDR]
+          default: getCDR
       responses:
         '200':
           description: Call detail records
@@ -593,7 +807,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRates]
+          default: getRates
         - name: package
           in: query
           required: false
@@ -611,7 +831,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getTerminationRates]
+          default: getTerminationRates
       responses:
         '200':
           description: Termination rates
@@ -624,7 +850,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getResellerCDR]
+          default: getResellerCDR
       responses:
         '200':
           description: Reseller CDR
@@ -637,7 +869,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getResellerSMS]
+          default: getResellerSMS
       responses:
         '200':
           description: Reseller SMS
@@ -650,7 +888,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getResellerMMS]
+          default: getResellerMMS
       responses:
         '200':
           description: Reseller MMS
@@ -663,7 +907,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallParking]
+          default: getCallParking
       responses:
         '200':
           description: Call parking entries
@@ -676,7 +926,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setCallParking]
+          default: setCallParking
       responses:
         '200':
           description: Call parking updated/added
@@ -689,7 +945,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delCallParking]
+          default: delCallParking
       responses:
         '200':
           description: Call parking deleted
@@ -702,7 +964,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallRecordings]
+          default: getCallRecordings
       responses:
         '200':
           description: Call recordings
@@ -715,7 +983,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallRecording]
+          default: getCallRecording
         - name: recording_id
           in: query
           required: true
@@ -733,7 +1007,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [sendCallRecordingEmail]
+          default: sendCallRecordingEmail
         - name: recording_id
           in: query
           required: true
@@ -756,7 +1036,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delCallRecording]
+          default: delCallRecording
         - name: recording_id
           in: query
           required: true
@@ -774,7 +1060,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [addCharge]
+          default: addCharge
       responses:
         '200':
           description: Charge added
@@ -787,7 +1079,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [addPayment]
+          default: addPayment
       responses:
         '200':
           description: Payment added
@@ -800,7 +1098,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [assignDIDvPRI]
+          default: assignDIDvPRI
       responses:
         '200':
           description: DID assigned to VPRI
@@ -813,7 +1117,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getBalanceManagement]
+          default: getBalanceManagement
       responses:
         '200':
           description: Balance management options
@@ -826,7 +1136,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCharges]
+          default: getCharges
       responses:
         '200':
           description: Charges list
@@ -839,7 +1155,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getClientPackages]
+          default: getClientPackages
       responses:
         '200':
           description: Client packages
@@ -852,7 +1174,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getClients]
+          default: getClients
         - name: reseller_client_id
           in: query
           required: false
@@ -870,7 +1198,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getClientThreshold]
+          default: getClientThreshold
       responses:
         '200':
           description: Client threshold
@@ -883,7 +1217,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDeposits]
+          default: getDeposits
       responses:
         '200':
           description: Deposits
@@ -896,7 +1236,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getPackages]
+          default: getPackages
       responses:
         '200':
           description: Packages list
@@ -909,7 +1255,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getResellerBalance]
+          default: getResellerBalance
         - name: reseller_client_id
           in: query
           required: true
@@ -927,7 +1279,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setClient]
+          default: setClient
       responses:
         '200':
           description: Client updated
@@ -940,7 +1298,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setClientThreshold]
+          default: setClientThreshold
       responses:
         '200':
           description: Threshold updated
@@ -953,7 +1317,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setConference]
+          default: setConference
       responses:
         '200':
           description: Conference updated/added
@@ -966,7 +1336,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setConferenceMember]
+          default: setConferenceMember
       responses:
         '200':
           description: Conference member updated/added
@@ -979,7 +1355,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setSequences]
+          default: setSequences
       responses:
         '200':
           description: Sequence updated/added
@@ -992,7 +1374,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [signupClient]
+          default: signupClient
       responses:
         '200':
           description: Client signed up
@@ -1005,7 +1393,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [backOrderDIDUSA]
+          default: backOrderDIDUSA
       responses:
         '200':
           description: Backorder placed
@@ -1018,7 +1412,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [backOrderDIDCAN]
+          default: backOrderDIDCAN
       responses:
         '200':
           description: Backorder placed
@@ -1031,7 +1431,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [cancelDID]
+          default: cancelDID
         - $ref: '#/components/parameters/DIDNumber'
       responses:
         '200':
@@ -1045,7 +1451,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [connectDID]
+          default: connectDID
         - $ref: '#/components/parameters/DIDNumber'
       responses:
         '200':
@@ -1059,7 +1471,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delCallback]
+          default: delCallback
         - name: callback_id
           in: query
           required: true
@@ -1077,7 +1495,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delCallerIDFiltering]
+          default: delCallerIDFiltering
         - name: filtering_id
           in: query
           required: true
@@ -1095,7 +1519,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delCallHunting]
+          default: delCallHunting
         - name: callhunting_id
           in: query
           required: true
@@ -1113,7 +1543,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delConference]
+          default: delConference
         - name: conference
           in: query
           required: true
@@ -1131,7 +1567,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delConferenceMember]
+          default: delConferenceMember
         - name: member
           in: query
           required: true
@@ -1149,7 +1591,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delSequences]
+          default: delSequences
         - name: sequence
           in: query
           required: true
@@ -1167,7 +1615,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delClient]
+          default: delClient
       responses:
         '200':
           description: Client deleted
@@ -1180,7 +1634,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delDISA]
+          default: delDISA
       responses:
         '200':
           description: DISA deleted
@@ -1193,7 +1653,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [deleteSMS]
+          default: deleteSMS
       responses:
         '200':
           description: SMS deleted
@@ -1206,7 +1672,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [deleteMMS]
+          default: deleteMMS
       responses:
         '200':
           description: MMS deleted
@@ -1219,7 +1691,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delForwarding]
+          default: delForwarding
       responses:
         '200':
           description: Forwarding deleted
@@ -1232,7 +1710,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delIVR]
+          default: delIVR
       responses:
         '200':
           description: IVR deleted
@@ -1245,7 +1729,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delPhonebook]
+          default: delPhonebook
       responses:
         '200':
           description: Phonebook entry deleted
@@ -1258,7 +1748,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delPhonebookGroup]
+          default: delPhonebookGroup
       responses:
         '200':
           description: Phonebook group deleted
@@ -1271,7 +1767,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delQueue]
+          default: delQueue
       responses:
         '200':
           description: Queue deleted
@@ -1284,7 +1786,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delRecording]
+          default: delRecording
       responses:
         '200':
           description: Recording deleted
@@ -1297,7 +1805,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delRingGroup]
+          default: delRingGroup
       responses:
         '200':
           description: Ring group deleted
@@ -1310,7 +1824,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delSIPURI]
+          default: delSIPURI
       responses:
         '200':
           description: SIP URI deleted
@@ -1323,7 +1843,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delStaticMember]
+          default: delStaticMember
       responses:
         '200':
           description: Static member deleted
@@ -1336,7 +1862,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delTimeCondition]
+          default: delTimeCondition
       responses:
         '200':
           description: Time condition deleted
@@ -1349,7 +1881,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallbacks]
+          default: getCallbacks
       responses:
         '200':
           description: Callbacks list
@@ -1362,7 +1900,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallerIDFiltering]
+          default: getCallerIDFiltering
       responses:
         '200':
           description: CallerID filtering
@@ -1375,7 +1919,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCallHuntings]
+          default: getCallHuntings
       responses:
         '200':
           description: Call huntings
@@ -1388,7 +1938,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getCarriers]
+          default: getCarriers
       responses:
         '200':
           description: Carriers list
@@ -1401,7 +1957,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDIDCountries]
+          default: getDIDCountries
       responses:
         '200':
           description: DID countries
@@ -1414,7 +1976,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDIDsInternationalGeographic]
+          default: getDIDsInternationalGeographic
       responses:
         '200':
           description: Intl geographic DIDs
@@ -1427,7 +1995,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDIDsInternationalNational]
+          default: getDIDsInternationalNational
       responses:
         '200':
           description: Intl national DIDs
@@ -1440,7 +2014,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDIDsInternationalTollFree]
+          default: getDIDsInternationalTollFree
       responses:
         '200':
           description: Intl toll-free DIDs
@@ -1453,7 +2033,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDIDvPRI]
+          default: getDIDvPRI
       responses:
         '200':
           description: DIDs assigned to VPRI
@@ -1466,7 +2052,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getDISAs]
+          default: getDISAs
       responses:
         '200':
           description: DISAs
@@ -1479,7 +2071,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getForwardings]
+          default: getForwardings
       responses:
         '200':
           description: Forwardings
@@ -1492,7 +2090,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getInternationalTypes]
+          default: getInternationalTypes
       responses:
         '200':
           description: International DID types
@@ -1505,7 +2109,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getIVRs]
+          default: getIVRs
       responses:
         '200':
           description: IVRs
@@ -1518,7 +2128,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getJoinWhenEmptyTypes]
+          default: getJoinWhenEmptyTypes
       responses:
         '200':
           description: JoinWhenEmpty types
@@ -1531,7 +2147,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getMMS]
+          default: getMMS
       responses:
         '200':
           description: MMS list
@@ -1544,7 +2166,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getMediaMMS]
+          default: getMediaMMS
       responses:
         '200':
           description: MMS media file
@@ -1557,7 +2185,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getPhonebook]
+          default: getPhonebook
       responses:
         '200':
           description: Phonebook entries
@@ -1570,7 +2204,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getPhonebookGroups]
+          default: getPhonebookGroups
       responses:
         '200':
           description: Phonebook groups
@@ -1583,7 +2223,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getPortability]
+          default: getPortability
       responses:
         '200':
           description: Portability check
@@ -1596,7 +2242,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getProvinces]
+          default: getProvinces
       responses:
         '200':
           description: Provinces
@@ -1609,7 +2261,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getQueues]
+          default: getQueues
       responses:
         '200':
           description: Queues
@@ -1622,7 +2280,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRateCentersCAN]
+          default: getRateCentersCAN
       responses:
         '200':
           description: Canadian ratecenters
@@ -1635,7 +2299,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRateCentersUSA]
+          default: getRateCentersUSA
       responses:
         '200':
           description: USA ratecenters
@@ -1648,7 +2318,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRecordings]
+          default: getRecordings
       responses:
         '200':
           description: Recordings list
@@ -1661,7 +2337,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRecordingFile]
+          default: getRecordingFile
       responses:
         '200':
           description: Recording file (Base64)
@@ -1674,7 +2356,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRingGroups]
+          default: getRingGroups
       responses:
         '200':
           description: Ring groups
@@ -1687,7 +2375,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getRingStrategies]
+          default: getRingStrategies
       responses:
         '200':
           description: Ring strategies
@@ -1700,7 +2394,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getSIPURIs]
+          default: getSIPURIs
       responses:
         '200':
           description: SIP URIs
@@ -1713,7 +2413,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getSMS]
+          default: getSMS
       responses:
         '200':
           description: SMS list
@@ -1726,7 +2432,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getStates]
+          default: getStates
       responses:
         '200':
           description: States
@@ -1739,7 +2451,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getStaticMembers]
+          default: getStaticMembers
       responses:
         '200':
           description: Static members
@@ -1752,7 +2470,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getTimeConditions]
+          default: getTimeConditions
       responses:
         '200':
           description: Time conditions
@@ -1765,7 +2489,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVoicemailSetups]
+          default: getVoicemailSetups
       responses:
         '200':
           description: Voicemail setups
@@ -1778,7 +2508,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVoicemailAttachmentFormats]
+          default: getVoicemailAttachmentFormats
       responses:
         '200':
           description: Attachment formats
@@ -1791,7 +2527,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderDID]
+          default: orderDID
       responses:
         '200':
           description: DID ordered
@@ -1804,7 +2546,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderDIDInternationalGeographic]
+          default: orderDIDInternationalGeographic
       responses:
         '200':
           description: Intl geographic DID ordered
@@ -1817,7 +2565,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderDIDInternationalNational]
+          default: orderDIDInternationalNational
       responses:
         '200':
           description: Intl national DID ordered
@@ -1830,7 +2584,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderDIDInternationalTollFree]
+          default: orderDIDInternationalTollFree
       responses:
         '200':
           description: Intl toll-free DID ordered
@@ -1843,7 +2603,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderDIDVirtual]
+          default: orderDIDVirtual
       responses:
         '200':
           description: Virtual DID ordered
@@ -1856,7 +2622,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderTollFree]
+          default: orderTollFree
       responses:
         '200':
           description: Toll-free ordered
@@ -1869,7 +2641,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderVanity]
+          default: orderVanity
       responses:
         '200':
           description: Vanity number ordered
@@ -1882,7 +2660,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [removeDIDvPRI]
+          default: removeDIDvPRI
       responses:
         '200':
           description: DID removed from VPRI
@@ -1895,7 +2679,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [searchDIDsCAN]
+          default: searchDIDsCAN
       responses:
         '200':
           description: Search results
@@ -1908,7 +2698,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [searchDIDsUSA]
+          default: searchDIDsUSA
       responses:
         '200':
           description: Search results
@@ -1921,7 +2717,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [searchTollFreeCanUS]
+          default: searchTollFreeCanUS
       responses:
         '200':
           description: Toll-free search results
@@ -1934,7 +2736,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [searchTollFreeUSA]
+          default: searchTollFreeUSA
       responses:
         '200':
           description: Toll-free search results
@@ -1947,7 +2755,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [searchVanity]
+          default: searchVanity
       responses:
         '200':
           description: Vanity search results
@@ -1960,7 +2774,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [sendSMS]
+          default: sendSMS
         - name: to
           in: query
           required: true
@@ -1983,7 +2803,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [sendMMS]
+          default: sendMMS
       responses:
         '200':
           description: MMS sent
@@ -1996,7 +2822,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setCallback]
+          default: setCallback
       responses:
         '200':
           description: Callback set/updated
@@ -2009,7 +2841,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setCallerIDFiltering]
+          default: setCallerIDFiltering
       responses:
         '200':
           description: CallerID filtering set
@@ -2022,7 +2860,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setCallHunting]
+          default: setCallHunting
       responses:
         '200':
           description: Call hunting set
@@ -2035,7 +2879,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setDIDBillingType]
+          default: setDIDBillingType
       responses:
         '200':
           description: DID billing type set
@@ -2048,7 +2898,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setDIDInfo]
+          default: setDIDInfo
       responses:
         '200':
           description: DID info updated
@@ -2061,7 +2917,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setDIDPOP]
+          default: setDIDPOP
       responses:
         '200':
           description: DID POP updated
@@ -2074,7 +2936,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setDIDRouting]
+          default: setDIDRouting
       responses:
         '200':
           description: DID routing updated
@@ -2087,7 +2955,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setDIDVoicemail]
+          default: setDIDVoicemail
       responses:
         '200':
           description: DID voicemail updated
@@ -2100,7 +2974,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setDISA]
+          default: setDISA
       responses:
         '200':
           description: DISA set/updated
@@ -2113,7 +2993,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setForwarding]
+          default: setForwarding
       responses:
         '200':
           description: Forwarding set/updated
@@ -2126,7 +3012,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setIVR]
+          default: setIVR
       responses:
         '200':
           description: IVR set/updated
@@ -2139,7 +3031,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setPhonebook]
+          default: setPhonebook
       responses:
         '200':
           description: Phonebook entry set/updated
@@ -2152,7 +3050,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setPhonebookGroup]
+          default: setPhonebookGroup
       responses:
         '200':
           description: Phonebook group set/updated
@@ -2165,7 +3069,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setQueue]
+          default: setQueue
       responses:
         '200':
           description: Queue set/updated
@@ -2178,7 +3088,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setRecording]
+          default: setRecording
       responses:
         '200':
           description: Recording set/updated
@@ -2191,7 +3107,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setRingGroup]
+          default: setRingGroup
       responses:
         '200':
           description: Ring group set/updated
@@ -2204,7 +3126,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setSIPURI]
+          default: setSIPURI
       responses:
         '200':
           description: SIP URI set/updated
@@ -2217,7 +3145,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setSMS]
+          default: setSMS
       responses:
         '200':
           description: SMS settings updated
@@ -2230,7 +3164,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setStaticMember]
+          default: setStaticMember
       responses:
         '200':
           description: Static member added/updated
@@ -2243,7 +3183,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setTimeCondition]
+          default: setTimeCondition
       responses:
         '200':
           description: Time condition set/updated
@@ -2256,7 +3202,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [unconnectDID]
+          default: unconnectDID
       responses:
         '200':
           description: DID unconnected
@@ -2269,7 +3221,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [connectFAX]
+          default: connectFAX
       responses:
         '200':
           description: FAX connected
@@ -2282,7 +3240,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [unconnectFAX]
+          default: unconnectFAX
       responses:
         '200':
           description: FAX unconnected
@@ -2295,7 +3259,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [cancelFaxNumber]
+          default: cancelFaxNumber
       responses:
         '200':
           description: Fax number cancelled
@@ -2308,7 +3278,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [deleteFaxMessage]
+          default: deleteFaxMessage
       responses:
         '200':
           description: Fax message deleted
@@ -2321,7 +3297,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delEmailToFax]
+          default: delEmailToFax
       responses:
         '200':
           description: Email-to-fax config deleted
@@ -2334,7 +3316,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delFaxFolder]
+          default: delFaxFolder
       responses:
         '200':
           description: Fax folder deleted
@@ -2347,7 +3335,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getBackOrders]
+          default: getBackOrders
       responses:
         '200':
           description: Backorders list
@@ -2360,7 +3354,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxProvinces]
+          default: getFaxProvinces
       responses:
         '200':
           description: Fax provinces
@@ -2373,7 +3373,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxStates]
+          default: getFaxStates
       responses:
         '200':
           description: Fax states
@@ -2386,7 +3392,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxRateCentersCAN]
+          default: getFaxRateCentersCAN
       responses:
         '200':
           description: Fax ratecenters CAN
@@ -2399,7 +3411,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxRateCentersUSA]
+          default: getFaxRateCentersUSA
       responses:
         '200':
           description: Fax ratecenters USA
@@ -2412,7 +3430,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxNumbersInfo]
+          default: getFaxNumbersInfo
       responses:
         '200':
           description: Fax numbers
@@ -2425,7 +3449,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxNumbersPortability]
+          default: getFaxNumbersPortability
       responses:
         '200':
           description: Fax portability
@@ -2438,7 +3468,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxMessages]
+          default: getFaxMessages
       responses:
         '200':
           description: Fax messages
@@ -2451,7 +3487,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxMessagePDF]
+          default: getFaxMessagePDF
       responses:
         '200':
           description: Fax message PDF (Base64)
@@ -2464,7 +3506,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getFaxFolders]
+          default: getFaxFolders
       responses:
         '200':
           description: Fax folders
@@ -2477,7 +3525,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getEmailToFax]
+          default: getEmailToFax
       responses:
         '200':
           description: Email-to-fax configs
@@ -2490,7 +3544,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [mailFaxMessagePDF]
+          default: mailFaxMessagePDF
       responses:
         '200':
           description: Fax mailed as PDF
@@ -2503,7 +3563,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [moveFaxMessage]
+          default: moveFaxMessage
       responses:
         '200':
           description: Fax moved
@@ -2516,7 +3582,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [orderFaxNumber]
+          default: orderFaxNumber
       responses:
         '200':
           description: Fax number ordered
@@ -2529,7 +3601,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setFaxFolder]
+          default: setFaxFolder
       responses:
         '200':
           description: Fax folder set/updated
@@ -2542,7 +3620,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setEmailToFax]
+          default: setEmailToFax
       responses:
         '200':
           description: Email-to-fax config set/updated
@@ -2555,7 +3639,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [searchFaxAreaCodeCAN]
+          default: searchFaxAreaCodeCAN
       responses:
         '200':
           description: Search results
@@ -2568,7 +3658,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [searchFaxAreaCodeUSA]
+          default: searchFaxAreaCodeUSA
       responses:
         '200':
           description: Search results
@@ -2581,7 +3677,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setFaxNumberInfo]
+          default: setFaxNumberInfo
       responses:
         '200':
           description: Fax number info updated
@@ -2594,7 +3696,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setFaxNumberEmail]
+          default: setFaxNumberEmail
       responses:
         '200':
           description: Fax number email updated
@@ -2607,7 +3715,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setFaxNumberURLCallback]
+          default: setFaxNumberURLCallback
       responses:
         '200':
           description: Fax number callback URL updated
@@ -2620,7 +3734,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [sendFaxMessage]
+          default: sendFaxMessage
       responses:
         '200':
           description: Fax sent
@@ -2633,7 +3753,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [e911AddressTypes]
+          default: e911AddressTypes
       responses:
         '200':
           description: e911 address types
@@ -2646,7 +3772,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [e911Cancel]
+          default: e911Cancel
       responses:
         '200':
           description: e911 cancelled
@@ -2659,7 +3791,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [e911Info]
+          default: e911Info
       responses:
         '200':
           description: e911 info
@@ -2672,7 +3810,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [e911Provision]
+          default: e911Provision
       responses:
         '200':
           description: e911 provisioned
@@ -2685,7 +3829,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [e911ProvisionManually]
+          default: e911ProvisionManually
       responses:
         '200':
           description: e911 provisioned manually
@@ -2698,7 +3848,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [e911Update]
+          default: e911Update
       responses:
         '200':
           description: e911 updated
@@ -2711,7 +3867,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [e911Validate]
+          default: e911Validate
       responses:
         '200':
           description: e911 validated
@@ -2724,7 +3886,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [addLNPPort]
+          default: addLNPPort
       responses:
         '200':
           description: LNP port added
@@ -2737,7 +3905,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [addLNPFile]
+          default: addLNPFile
       responses:
         '200':
           description: LNP file added
@@ -2750,7 +3924,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLNPStatus]
+          default: getLNPStatus
       responses:
         '200':
           description: LNP status
@@ -2763,7 +3943,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLNPNotes]
+          default: getLNPNotes
       responses:
         '200':
           description: LNP notes
@@ -2776,7 +3962,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLNPListStatus]
+          default: getLNPListStatus
       responses:
         '200':
           description: LNP list status
@@ -2789,7 +3981,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLNPList]
+          default: getLNPList
       responses:
         '200':
           description: LNP list
@@ -2802,7 +4000,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLNPDetails]
+          default: getLNPDetails
       responses:
         '200':
           description: LNP details
@@ -2815,7 +4019,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLNPAttachList]
+          default: getLNPAttachList
       responses:
         '200':
           description: LNP attachments list
@@ -2828,7 +4038,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getLNPAttach]
+          default: getLNPAttach
       responses:
         '200':
           description: LNP attached file info
@@ -2841,7 +4057,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [createVoicemail]
+          default: createVoicemail
       responses:
         '200':
           description: Voicemail created
@@ -2854,7 +4076,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delMessages]
+          default: delMessages
       responses:
         '200':
           description: Voicemail messages deleted
@@ -2867,7 +4095,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delMemberFromConference]
+          default: delMemberFromConference
       responses:
         '200':
           description: Member removed from conference
@@ -2880,7 +4114,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [delVoicemail]
+          default: delVoicemail
       responses:
         '200':
           description: Voicemail deleted
@@ -2893,7 +4133,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getPlayInstructions]
+          default: getPlayInstructions
       responses:
         '200':
           description: Play instructions
@@ -2906,7 +4152,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getTimezones]
+          default: getTimezones
       responses:
         '200':
           description: Timezones
@@ -2919,7 +4171,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVoicemails]
+          default: getVoicemails
       responses:
         '200':
           description: Voicemails
@@ -2932,7 +4190,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVoicemailFolders]
+          default: getVoicemailFolders
       responses:
         '200':
           description: Voicemail folders
@@ -2945,7 +4209,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVoicemailMessageFile]
+          default: getVoicemailMessageFile
       responses:
         '200':
           description: Voicemail message file (Base64)
@@ -2958,7 +4228,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVoicemailMessages]
+          default: getVoicemailMessages
       responses:
         '200':
           description: Voicemail messages list
@@ -2971,7 +4247,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [getVPRIs]
+          default: getVPRIs
       responses:
         '200':
           description: VPRIs
@@ -2984,7 +4266,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [markListenedVoicemailMessage]
+          default: markListenedVoicemailMessage
       responses:
         '200':
           description: Marked listened/unlistened
@@ -2997,7 +4285,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [markUrgentVoicemailMessage]
+          default: markUrgentVoicemailMessage
       responses:
         '200':
           description: Marked urgent/not urgent
@@ -3010,7 +4304,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [moveFolderVoicemailMessage]
+          default: moveFolderVoicemailMessage
       responses:
         '200':
           description: Message moved
@@ -3023,7 +4323,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [sendVoicemailEmail]
+          default: sendVoicemailEmail
       responses:
         '200':
           description: Voicemail emailed
@@ -3036,7 +4342,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ApiUsername'
         - $ref: '#/components/parameters/ApiPassword'
-        - $ref: '#/components/parameters/MethodParam'
+        - name: method
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [setVoicemail]
+          default: setVoicemail
       responses:
         '200':
           description: Voicemail set/updated
