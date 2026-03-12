@@ -52,7 +52,7 @@ components:
         type: string
       description: Specific DID number
 paths:
-  /getDIDsInfo:
+  /api/v1/rest.php/getDIDsInfo:
       get:
         summary: Get DIDs Info
         description: Retrieves information from all your DIDs or a specific DID if provided.
