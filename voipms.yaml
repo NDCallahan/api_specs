@@ -53,28 +53,42 @@ components:
       description: Specific DID number
 paths:
   /getDIDsInfo:
-    get:
-      summary: getDIDsInfo
-      description: |
-        - Retrieves a list of DIDs if no additional parameter is provided.
-        - Retrieves a specific DID if a DID number is provided.
-      operationId: getDIDsInfo
-      parameters:
-        - $ref: '#/components/parameters/ApiUsername'
-        - $ref: '#/components/parameters/ApiPassword'
-        - name: method
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: [getDIDsInfo]
-          default: getDIDsInfo
-        - $ref: '#/components/parameters/DIDNumber'
-      responses:
-        '200':
-          description: DID(s) info
-        '400':
-          description: Invalid request
+      get:
+        summary: Get DIDs Info
+        description: Retrieves information from all your DIDs or a specific DID if provided.
+        operationId: getDIDsInfo
+        parameters:
+          - $ref: '#/components/parameters/ApiUsername'
+          - $ref: '#/components/parameters/ApiPassword'
+          - name: method
+            in: query
+            required: true
+            schema:
+              type: string
+              enum: [getDIDsInfo]
+            description: API method to call
+          - $ref: '#/components/parameters/DIDNumber'
+        responses:
+          '200':
+            description: DID information
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                    dids:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          did:
+                            type: string
+                          info:
+                            type: object
+          '400':
+            description: Invalid request
   /api/v1/rest.php/getBalance:
     get:
       summary: getBalance
