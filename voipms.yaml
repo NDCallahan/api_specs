@@ -131,6 +131,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Adds a payment to a specific reseller client.
   /assignDIDvPRI:
     get:
       summary: Assign D I Dv P R I
@@ -423,6 +424,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Removes a DID from the account.
   /connectDID:
     get:
       summary: Connect D I D
@@ -782,6 +784,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Adds a new sub-account to your account.
   /createVoicemail:
     get:
       summary: Create Voicemail
@@ -890,6 +893,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Adds a new voicemail box to the account.
   /delCallback:
     get:
       summary: Del Callback
@@ -994,6 +998,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Deletes a specific call recording and its data.
   /delClient:
     get:
       summary: Del Client
@@ -1504,6 +1509,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Deletes a specific sub-account.
   /delTimeCondition:
     get:
       summary: Del Time Condition
@@ -1603,6 +1609,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists supported audio codecs (ulaw, g729, etc.).
   /getAuthTypes:
     get:
       summary: Get Auth Types
@@ -1636,6 +1643,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists authentication methods (User/Pass vs. IP).
   /getBalance:
     get:
       summary: Get Balance
@@ -1669,6 +1677,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves account balance and optional call statistics.
   /getBalanceManagement:
     get:
       summary: Get Balance Management
@@ -1730,6 +1739,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves sub-accounts for billing purposes.
   /getCallbacks:
     get:
       summary: Get Callbacks
@@ -1973,6 +1983,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves main Call Detail Records.
   /getCharges:
     get:
       summary: Get Charges
@@ -2039,6 +2050,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists packages assigned to a reseller client.
   /getClients:
     get:
       summary: Get Clients
@@ -2072,6 +2084,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves all or specific reseller client details.
   /getClientThreshold:
     get:
       summary: Get Client Threshold
@@ -2138,6 +2151,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves a list of supported countries.
   /getDeposits:
     get:
       summary: Get Deposits
@@ -2204,6 +2218,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists hardware types (Asterisk, IP Phone, etc.).
   /getDIDCountries:
     get:
       summary: Get D I D Countries
@@ -2351,6 +2366,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves full settings for one or all DIDs.
   /getPortability:
     get:
       summary: Get Portability
@@ -2587,6 +2603,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists DTMF signaling options.
   /getForwardings:
     get:
       summary: Get Forwardings
@@ -2681,6 +2698,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Shows the IP used by the client application (no auth required).
   /getIVRs:
     get:
       summary: Get I V Rs
@@ -2780,6 +2798,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists available languages for system messages.
   /getLocales:
     get:
       summary: Get Locales
@@ -2813,6 +2832,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves locale codes for transcriptions.
   /getLockInternational:
     get:
       summary: Get Lock International
@@ -2846,6 +2866,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists international calling restriction modes.
   /getMusicOnHold:
     get:
       summary: Get Music On Hold
@@ -2879,6 +2900,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists Music on Hold options.
   /setMusicOnHold:
     get:
       summary: Set Music On Hold
@@ -2965,6 +2987,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Deletes a specific custom Music on Hold.
   /getNAT:
     get:
       summary: Get N A T
@@ -2998,6 +3021,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists Network Address Translation (NAT) options.
   /getPackages:
     get:
       summary: Get Packages
@@ -3183,6 +3207,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists supported protocols (SIP, IAX2).
   /getProvinces:
     get:
       summary: Get Provinces
@@ -3348,6 +3373,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves rates for a specific package and search term.
   /getRecordings:
     get:
       summary: Get Recordings
@@ -3447,6 +3473,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Checks if an account is currently registered.
   /getReportEstimatedHoldTime:
     get:
       summary: Get Report Estimated Hold Time
@@ -3513,6 +3540,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves balance and stats for a reseller client.
   /getResellerCDR:
     get:
       summary: Get Reseller C D R
@@ -3596,6 +3624,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves CDR for a specific reseller client.
   /getRingGroups:
     get:
       summary: Get Ring Groups
@@ -3728,6 +3757,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists VoIP.ms servers and their POP info.
   /getSIPURIs:
     get:
       summary: Get S I P U R Is
@@ -4044,6 +4074,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves all or specific sub-account details.
   /getTerminationRates:
     get:
       summary: Get Termination Rates
@@ -4082,6 +4113,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves rates for specific routes (Premium/Value).
   /getTimeConditions:
     get:
       summary: Get Time Conditions
@@ -4186,6 +4218,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves financial transaction records between two dates.
   /getVoicemailAttachmentFormats:
     get:
       summary: Get Voicemail Attachment Formats
@@ -4426,6 +4459,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Orders and adds a new DID number to the account.
   /orderDIDInternationalGeographic:
     get:
       summary: Order D I D International Geographic
@@ -5175,6 +5209,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Searches for Canadian DIDs by province.
   /searchDIDsUSA:
     get:
       summary: Search D I Ds U S A
@@ -5218,6 +5253,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Searches for USA DIDs by state.
   /searchTollFreeCanUS:
     get:
       summary: Search Toll Free Can U S
@@ -5375,6 +5411,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Sends an outbound SMS message.
   /sendMMS:
     get:
       summary: Send M M S
@@ -5433,6 +5470,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Sends an outbound MMS message.
   /setCallback:
     get:
       summary: Set Callback
@@ -5932,6 +5970,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Updates the routing destination for a DID.
   /setDIDVoicemail:
     get:
       summary: Set D I D Voicemail
@@ -6951,6 +6990,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Updates existing sub-account information.
   /setTimeCondition:
     get:
       summary: Set Time Condition
@@ -7137,6 +7177,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Updates settings for a specific voicemail box.
   /signupClient:
     get:
       summary: Signup Client
@@ -7240,6 +7281,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Signs up a new reseller client.
   /unconnectDID:
     get:
       summary: Unconnect D I D
@@ -7737,6 +7779,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves a list of received fax messages.
   /getFaxMessagePDF:
     get:
       summary: Get Fax Message P D F
@@ -7770,6 +7813,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves Base64 code to generate a fax PDF.
   /getFaxFolders:
     get:
       summary: Get Fax Folders
@@ -7990,6 +8034,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Purchases a new dedicated fax number.
   /setFaxFolder:
     get:
       summary: Set Fax Folder
@@ -8404,6 +8449,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Sends an outbound fax message.
   /e911AddressTypes:
     get:
       summary: E911 Address Types
@@ -8591,6 +8637,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Subscribes a DID to e911 emergency services.
   /e911ProvisionManually:
     get:
       summary: E911 Provision Manually
@@ -8767,6 +8814,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Updates address info for an e911 subscription.
   /e911Validate:
     get:
       summary: E911 Validate
@@ -8855,6 +8903,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Validates address info before provisioning.
   /getVoicemailFolders:
     get:
       summary: Get Voicemail Folders
@@ -8936,6 +8985,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists messages in a specific mailbox.
   /getVoicemailMessageFile:
     get:
       summary: Get Voicemail Message File
@@ -8979,6 +9029,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves audio message file in Base64.
   /sendVoicemailEmail:
     get:
       summary: Send Voicemail Email
@@ -9204,6 +9255,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves current parked call entries.
   /getCallHuntings:
     get:
       summary: Get Call Huntings
@@ -9275,6 +9327,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves a specific recording (includes MP3 data).
   /getCallRecordings:
     get:
       summary: Get Call Recordings
@@ -9328,6 +9381,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists all call recordings related to the account.
   /sendCallRecordingEmail:
     get:
       summary: Send Call Recording Email
@@ -9371,6 +9425,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Emails a recording file to a specified address.
   /delCallParking:
     get:
       summary: Del Call Parking
@@ -9404,6 +9459,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Deletes call parking entries.
   /delCallHunting:
     get:
       summary: Del Call Hunting
@@ -9505,6 +9561,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Updates or adds new call parking configurations.
   /setCallHunting:
     get:
       summary: Set Call Hunting
@@ -9611,6 +9668,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves a list of conferences or details for a specific one.
   /setConference:
     get:
       summary: Set Conference
@@ -9911,6 +9969,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves member profiles for conferences.
   /getConferenceRecordings:
     get:
       summary: Get Conference Recordings
@@ -9954,6 +10013,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Lists recordings for a specific conference.
   /getConferenceRecordingFile:
     get:
       summary: Get Conference Recording File
@@ -9992,6 +10052,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves recording file data in Base64 format.
   /setConferenceMember:
     get:
       summary: Set Conference Member
@@ -10281,6 +10342,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Starts the process to port an existing number.
   /addLNPFile:
     get:
       summary: Add L N P File
@@ -10319,6 +10381,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Uploads documentation (LOA/Invoice) for porting.
   /getLNPStatus:
     get:
       summary: Get L N P Status
@@ -10352,6 +10415,7 @@ paths:
                 additionalProperties: true
         '400':
           description: Invalid request or API error
+      description: Retrieves the current status of a porting request.
   /getLNPNotes:
     get:
       summary: Get L N P Notes
