@@ -144,6 +144,105 @@ paths:
                     description: Optional detailed breakdown when requested
         '400':
           description: Invalid request
+  createSubAccount:
+    get:
+      summary: Create Sub Account
+      description: Creates a sub-account under the authenticated account (or reseller client) with provided credentials.
+      operationId: createSubAccount
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [createSubAccount]
+          description: API method to call
+        - name: reseller_client_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Reseller Client ID when creating the subaccount under a reseller
+        - name: subaccount
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Subaccount identifier (username)
+        - name: password
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Password for the created subaccount
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+            format: email
+          description: Contact email for the subaccount
+      responses:
+        '200':
+          description: Subaccount created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  subaccount_id:
+                    type: string
+                  description:
+                    type: string
+        '400':
+          description: Invalid request
+  delSubAccount:
+    get:
+      summary: Delete Sub Account
+      description: Deletes a sub-account identified by its username or id.
+      operationId: delSubAccount
+      parameters:
+        - $ref: '#/components/parameters/ApiUsername'
+        - $ref: '#/components/parameters/ApiPassword'
+        - name: method
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [delSubAccount]
+          description: API method to call
+        - name: reseller_client_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Reseller Client ID when deleting subaccount under a reseller
+        - name: subaccount
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Subaccount identifier (username or id) to delete
+      responses:
+        '200':
+          description: Subaccount deletion result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  deleted:
+                    type: boolean
+                  description:
+                    type: string
+        '400':
+          description: Invalid request
   sendSMS:
     get:
       summary: Send SMS
